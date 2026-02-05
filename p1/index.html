@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اشعار کی تشریح</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #e8f5e3;
+            --bg-secondary: #f0f9ed;
+            --text-primary: #1a4d2e;
+            --text-secondary: #2d6a4f;
+            --accent: #52b788;
+            --border: #95d5b2;
+            --shadow: rgba(26, 77, 46, 0.1);
+            --bismillah-bg: #d8f3dc;
+        }
+
+        [data-theme="lightblue"] {
+            --bg-primary: #e3f2fd;
+            --bg-secondary: #f1f8ff;
+            --text-primary: #0d47a1;
+            --text-secondary: #1565c0;
+            --accent: #2196f3;
+            --border: #90caf9;
+            --shadow: rgba(13, 71, 161, 0.1);
+            --bismillah-bg: #dceefb;
+        }
+
+        [data-theme="yellow"] {
+            --bg-primary: #fff9e6;
+            --bg-secondary: #fffbf0;
+            --text-primary: #7d5a00;
+            --text-secondary: #a67c00;
+            --accent: #ffc107;
+            --border: #ffe082;
+            --shadow: rgba(125, 90, 0, 0.1);
+            --bismillah-bg: #fff4d6;
+        }
+
+        [data-theme="sepia"] {
+            --bg-primary: #f4ecd8;
+            --bg-secondary: #f9f3e6;
+            --text-primary: #5d4e37;
+            --text-secondary: #8b7355;
+            --accent: #c19a6b;
+            --border: #d4af87;
+            --shadow: rgba(93, 78, 55, 0.12);
+            --bismillah-bg: #ede2ce;
+        }
+
+        [data-theme="contrast"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f8f8;
+            --text-primary: #000000;
+            --text-secondary: #1a1a1a;
+            --accent: #000000;
+            --border: #333333;
+            --shadow: rgba(0, 0, 0, 0.15);
+            --bismillah-bg: #f0f0f0;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --text-primary: #e8e8e8;
+            --text-secondary: #c8c8c8;
+            --accent: #4a9eff;
+            --border: #404040;
+            --shadow: rgba(255, 255, 255, 0.05);
+            --bismillah-bg: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Noto Nastaliq Urdu', 'Amiri', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.9;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 30%, var(--shadow) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, var(--shadow) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Floating Controls Container */
+        .floating-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .floating-controls.hidden {
+            opacity: 0;
+            transform: translateX(-20px);
+            pointer-events: none;
+        }
+
+        /* Control Buttons */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.2;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+
+        .btn:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Theme Selector */
+        .theme-selector {
+            margin-top: 10px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 8px 24px var(--shadow);
+            backdrop-filter: blur(10px);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+
+        .theme-selector.active {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .theme-option {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            margin: 6px 0;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            box-shadow: 0 3px 8px var(--shadow);
+        }
+
+        .theme-option:hover {
+            transform: scale(1.15) translateX(5px);
+            border-color: var(--accent);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .theme-option.active {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 3px var(--bg-primary);
+        }
+
+        .theme-greenish { background: linear-gradient(135deg, #e8f5e3, #52b788); }
+        .theme-lightblue { background: linear-gradient(135deg, #e3f2fd, #2196f3); }
+        .theme-yellow { background: linear-gradient(135deg, #fff9e6, #ffc107); }
+        .theme-sepia { background: linear-gradient(135deg, #f4ecd8, #c19a6b); }
+        .theme-contrast { background: linear-gradient(135deg, #ffffff, #333333); }
+        .theme-dark { background: linear-gradient(135deg, #1a1a1a, #4a9eff); }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            z-index: 999;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top.hidden {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        /* Bismillah Header */
+        .bismillah-header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: var(--bismillah-bg);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 3px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bismillah-header::before {
+            content: '✦';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite;
+        }
+
+        .bismillah-header::after {
+            content: '✦';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite reverse;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .bismillah-urdu {
+            font-family: 'Scheherazade New', 'Noto Nastaliq Urdu', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px var(--shadow);
+            letter-spacing: 2px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Main Title */
+        .main-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .main-title h1 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 6px var(--shadow);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .main-title h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        /* Content Sections */
+        .section {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: var(--accent);
+            opacity: 0.04;
+            border-radius: 0 0 0 100%;
+            transition: all 0.4s ease;
+        }
+
+        .section:hover::before {
+            width: 180px;
+            height: 180px;
+            opacity: 0.08;
+        }
+
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        /* Ghazal Title */
+        .ghazal-title {
+            font-family: 'Scheherazade New', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            padding-bottom: 1rem;
+        }
+
+        .ghazal-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        /* Poet Reference Section */
+        .poet-reference {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .poet-reference:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .hawala-main-title {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hawala-main-title::before {
+            content: '📋';
+        }
+
+        .reference-sub-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .reference-label {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reference-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-right: 4px solid var(--accent);
+        }
+
+        /* Sher Container */
+        .sher-container {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .sher-container:hover {
+            border-color: var(--accent);
+            box-shadow: 0 6px 16px var(--shadow);
+            transform: translateX(-5px);
+        }
+
+        .sher-container::before {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 0;
+            background: var(--accent);
+            border-radius: 3px 0 0 3px;
+            transition: height 0.3s ease;
+        }
+
+        .sher-container:hover::before {
+            height: 80%;
+        }
+
+        .sher-number {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sher-number::before {
+            content: '📜';
+            font-size: 1.2rem;
+        }
+
+        .sher-text {
+            font-family: 'Noto Nastaliq Urdu', 'Scheherazade New', serif;
+            font-size: 1.8rem;
+            line-height: 2.5;
+            color: var(--text-primary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border: 2px dashed var(--border);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .tashreeh-label {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tashreeh-label::before {
+            content: '💡';
+            font-size: 1.2rem;
+        }
+
+        .tashreeh-content {
+            font-size: 1.15rem;
+            line-height: 2.2;
+            color: var(--text-secondary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        /* Jump to Section */
+        .jump-menu {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 6px 20px var(--shadow);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .jump-menu h3 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+
+        .jump-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .jump-link {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            text-decoration: none;
+            border: 2px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-weight: 600;
+            font-size: 1.05rem;
+            box-shadow: 0 3px 10px var(--shadow);
+        }
+
+        .jump-link:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .bismillah-urdu {
+                font-size: 2.5rem;
+            }
+
+            .main-title h1 {
+                font-size: 2.2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .ghazal-title {
+                font-size: 2rem;
+            }
+
+            .sher-text {
+                font-size: 1.5rem;
+                padding: 1rem;
+            }
+
+            .reference-label,
+            .tashreeh-label,
+            .sher-number {
+                font-size: 1.2rem;
+            }
+
+            .reference-content,
+            .tashreeh-content {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            .sher-container {
+                padding: 1.5rem;
+            }
+
+            .poet-reference {
+                padding: 1.3rem;
+            }
+
+            .floating-controls {
+                top: 10px;
+                left: 10px;
+            }
+
+            .btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .theme-option {
+                width: 40px;
+                height: 40px;
+            }
+
+            .back-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .jump-link {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body data-theme="greenish">
+    <!-- Floating Controls Container -->
+    <div class="floating-controls" id="floatingControls">
+        <div class="controls">
+            <button class="btn" id="themeToggle" title="تھیم منتخب کریں">🎨</button>
+        </div>
+        <!-- Theme Selector -->
+        <div class="theme-selector" id="themeSelector">
+            <div class="theme-option theme-greenish active" data-theme="greenish" title="سبز تھیم"></div>
+            <div class="theme-option theme-lightblue" data-theme="lightblue" title="ہلکا نیلا"></div>
+            <div class="theme-option theme-yellow" data-theme="yellow" title="سنہرا پیلا"></div>
+            <div class="theme-option theme-sepia" data-theme="sepia" title="پرانا کاغذ"></div>
+            <div class="theme-option theme-contrast" data-theme="contrast" title="اعلی تضاد"></div>
+            <div class="theme-option theme-dark" data-theme="dark" title="تاریک"></div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" title="واپس اوپر">↑</button>
+
+    <div class="container">
+        <!-- Bismillah Header -->
+        <header class="bismillah-header">
+            <h1 class="bismillah-urdu">بِسْمِ اللہِ الرَّحْمٰنِ الرَّحِیْمِ</h1>
+        </header>
+
+        <!-- Main Title -->
+        <div class="main-title">
+            <h1>اشعار کی تشریح</h1>
+        </div>
+
+        <!-- Jump to Ghazals Menu -->
+        <nav class="jump-menu">
+            <h3>📖 غزلوں کی فہرست</h3>
+            <div class="jump-links">
+                <a href="#ghazal1" class="jump-link">خواجہ میر درد</a>
+                <a href="#ghazal2" class="jump-link">میر تقی میر</a>
+                <a href="#ghazal3" class="jump-link">حسرت موہانی</a>
+            </div>
+        </nav>
+
+        <!-- Ghazal Section 1: Khwaja Mir Dard -->
+        <section class="section ghazal-section" id="ghazal1">
+            <h2 class="ghazal-title">خواجہ میر درد</h2>
+
+            <div class="poet-reference">
+                <h3 class="hawala-main-title">حوالہ</h3>
+                <div class="reference-sub-section">
+                    <h4 class="reference-label">شاعر کا حوالہ</h4>
+                    <div class="reference-content">یہ غزلیات خواجہ میر درد کی ہیں۔</div>
+                </div>
+                <div class="reference-sub-section">
+                    <h4 class="reference-label">شاعر کا مختصر تعارف</h4>
+                    <div class="reference-content">خواجہ میر درد (1720ء – 1785ء) دہلی کے ایک بلند پایہ صوفی بزرگ اور ممتاز شاعر تھے۔ آپ نے صوفیانہ خیالات کو غزل کے رنگ میں اس طرح سمویا کہ وہ کلامِ درد کی پہچان بن گیا۔ آپ کی تصانیف میں نالہ درد، آہِ سرد اور دیوانِ درد (اردو و فارسی) شامل ہیں۔</div>
+                </div>
+            </div>
+
+            <!-- Ghazal 1 -->
+            <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--accent);">غزل - 1</h3>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 1</div>
+                <div class="sher-text">مقدور ہمیں کب ترے وصفوں کے رقم کا<br>حقّاً کہ خداوند ہے تو لوح و قلم کا</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">شاعر اللہ تعالیٰ کی حمد و ثنا بیان کرتے ہوئے کہتا ہے کہ ہم انسانوں میں اتنی طاقت اور وسعت کہاں کہ تیری صفات کو تحریر کر سکیں۔ حقیقت تو یہ ہے کہ تو ہی اس کائنات کا خالق اور لوح و قلم کا اصل مالک ہے، اور تمام تعریفیں تیرے ہی شایانِ شان ہیں۔ انسان کی محدود فہم اور علم کے باوجود، ہم تیری عظمت کو پوری طرح سے بیان کرنے سے قاصر ہیں۔ تیری ہر صفت، تیری ہر قدرت، اور تیری ہر نعمت کو بیان کرنے کے لیے ہمارے پاس الفاظ بھی کافی نہیں۔ تیری ہر تعریف اور تیری ہر ثنا کو سمجھنے اور بیان کرنے کے لیے ہماری زبان ہیں لیکن ہم تیری عظمت کو پورا اہل نہیں ہیں۔ تیری ہر صفت کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 2</div>
+                <div class="sher-text">اس مسندِ عزّت پہ کہ تو جلوہ نما ہے<br>کیا تاب گزر ہووے تعقّل کے قدم کا</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">اللہ تعالیٰ کی عظمت اور اس کا مرتبہ انسانی عقل و فہم سے بہت بلند ہے۔ شاعر کہتا ہے کہ جہاں اللہ کی شان کے جلوے ہوں، وہاں انسانی سوچ اور عقل کی رسائی ممکن نہیں، عقل وہاں جا کر عاجز ہو جاتی ہے۔ اللہ کی عظمت کو سمجھنے اور اس کے مرتبے کو پوری طرح سے ادراک کرنے کے لیے انسانی عقل کافی نہیں۔ اللہ کی قدرت اور اس کی عظمت کو سمجھنے کے لیے ہمارے پاس بس اتنا ہی علم ہے جتنا اللہ ہمیں دینا چاہتا ہے۔ اللہ کی شان کے جلوں کو سمجھنے اور ان کو بیان کرنے کے لیے ہمارے پاس بس اتنا ہی علم ہے جتنا اللہ ہمیں دینا چاہتا ہے۔ اللہ کی عظمت کو سمجھنے اور اس کے مرتبے کو ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 3</div>
+                <div class="sher-text">بستے ہیں ترے سائے میں سب شیخ و برہمن<br>آباد ہے تجھ سے ہی تو گھر دیر و حرم کا</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">اس شعر میں اللہ کی ہمہ گیری بیان کی گئی ہے کہ کائنات کی ہر مخلوق، چاہے وہ کسی بھی مذہب (شیخ یا برہمن) سے ہو، اللہ ہی کے زیرِ سایہ ہے۔ مندر ہو یا مسجد، ہر عبادت گاہ میں حقیقت میں تیرا ہی جلوہ آباد ہے۔ اللہ کی ہمہ گیری اور اس کی قدرت کو سمجھنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر مخلوق کو اس کی قدرت اور عظمت کو سمجھنے اور ادراک کرنے کی ضرورت ہے۔ اللہ کی ہر نعمت اور اس کی ہر قدرت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر صفت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 4</div>
+                <div class="sher-text">ہے خوف اگر جی میں تو ہے تیرے غضب کا<br>اور دل میں بھروسا ہے تو ہے تیرے کرم کا</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">ایک سچے مومن کی کیفیت بیان کی گئی ہے کہ اگر میرے دل میں کسی کا ڈر ہے تو وہ صرف تیرے غصے اور ناراضگی کا ہے، اور اگر مجھے کسی سے امید اور بھروسہ ہے تو وہ صرف تیری رحمت اور فضل و کرم پر ہے۔ ایک سچا مومن ہمیشہ اللہ کی رحمت اور اس کے فضل و کرم پر بھروسہ کرتا ہے۔ اللہ کی رحمت اور اس کے فضل و کرم کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر نعمت اور اس کی ہر قدرت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر صفت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 5</div>
+                <div class="sher-text">مانندِ حباب آنکھ تو اے درد کھلی تھی<br>کھینچا نہ پر اس بحر میں عرصہ کوئی دم کا</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">زندگی کی بے ثباتی کا ذکر کرتے ہوئے شاعر کہتا ہے کہ اس دنیا میں ہماری حیثیت پانی کے بلبلے کی طرح ہے۔ جیسے ہی آنکھ کھلی (پیدائش ہوئی)، ویسے ہی فنا کا وقت آگیا، ہم نے اس دنیا کے سمندر میں ایک لمحے سے زیادہ قیام نہیں کیا۔ زندگی کی بے ثباتی اور اس کی نہ خواہش کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ زندگی کے ہر لمحے کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔ زندگی کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری عقل اور علم کافی نہیں۔</div>
+            </div>
+
+            <!-- Ghazal 2 -->
+            <h3 style="text-align: center; margin-top: 3rem; margin-bottom: 1.5rem; color: var(--accent);">غزل - 2</h3>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 1</div>
+                <div class="sher-text">ارض و سما کہاں تری وسعت کو پاسکے<br>میرا ہی دل ہے وہ کہ جہاں تُو سما سکے</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">اللہ تعالیٰ کی عظمت زمین اور آسمان میں نہیں سما سکتی کیونکہ وہ بے انتہا ہے۔ لیکن اللہ نے انسان کے دل کو اتنی وسعت عطا کی ہے کہ وہ مومن کے دل میں اپنے نور کے ساتھ سما جاتا ہے۔ یہ انسانی دل کی فضیلت کا بیان ہے۔ اللہ کی عظمت کو سمجھنے اور اس کے مرتبے کو پورا ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر نعمت اور اس کی ہر قدرت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر صفت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 2</div>
+                <div class="sher-text">وحدت میں تیرے حرفِ دوئی کا نہ آسکے<br>آئینہ کیا مجال! تجھے منہ دکھا سکے</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">اللہ کی توحید اور وحدانیت اتنی کامل ہے کہ وہاں کسی دوسری ہستی کا تصور بھی ممکن نہیں۔ کوئی آئینہ یا کوئی مادی شے اللہ کی حقیقت اور جلوے کا مقابلہ کرنے کی ہمت نہیں رکھتی۔ اللہ کی توحید اور اس کی وحدانیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر صفت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔ اللہ کی ہر نعمت اور اس کی ہر قدرت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 3</div>
+                <div class="sher-text">قاصد نہیں یہ کام ترا، اپنی راہ لے<br>اُس کا پیام دل کے سوا کون لاسکے</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">خدا اور بندے کے درمیان رابطے کے لیے کسی ظاہری پیغامبر کی ضرورت نہیں۔ اللہ کا اصل پیغام تو دل کی گہرائیوں میں محسوس کیا جاتا ہے۔ قاصد اس روحانی تعلق اور پیغام کی نزاکت کو نہیں سمجھ سکتا۔ اللہ کا پیغام اور اس کی روحانیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر نعمت اور اس کی ہر قدرت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر صفت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 4</div>
+                <div class="sher-text">غافل! خدا کی یاد پہ مت بھول زیبہار<br>اپنے تئیں بھلا دے اگر تو بھلا سکے</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">اے غافل انسان! دنیا کی ظاہری رونقوں میں کھو کر خدا کو نہ بھول۔ اگر تو سچی معرفت چاہتا ہے تو اپنی 'انا' اور اپنی ذات کو مٹا دے، کیونکہ خود کو بھلا کر ہی خدا کو پایا جا سکتا ہے۔ اللہ کی معرفت اور اس کی عظمت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر نعمت اور اس کی ہر قدرت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر صفت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 5</div>
+                <div class="sher-text">گو بحث کر کے بات بٹھائی بھی کیا حاصل<br>دل سے اٹھا خلاف اگر تو اٹھا سکے</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">منطق اور بحث سے کسی کو قائل کر لینا بڑی بات نہیں ہے۔ اصل کامیابی یہ ہے کہ انسان اپنے دل سے نفرت، کدورت اور مخالفت کو ختم کر دے۔ ظاہری جیت کے بجائے باطنی اصلاح اصل مقصد ہونا چاہیے۔ اللہ کی معرفت اور اس کی عظمت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر نعمت اور اس کی ہر قدرت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ اللہ کی ہر صفت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+        </section>
+
+        <!-- Ghazal Section 2: Mir Taqi Mir -->
+        <section class="section ghazal-section" id="ghazal2">
+            <h2 class="ghazal-title">میر تقی میر</h2>
+
+            <div class="poet-reference">
+                <h3 class="hawala-main-title">حوالہ</h3>
+                <div class="reference-sub-section">
+                    <h4 class="reference-label">شاعر کا حوالہ</h4>
+                    <div class="reference-content">یہ کلام خدائے سخن میر تقی میر کا ہے۔</div>
+                </div>
+                <div class="reference-sub-section">
+                    <h4 class="reference-label">شاعر کا مختصر تعارف</h4>
+                    <div class="reference-content">میر تقی میر (1723ء – 1810ء) اردو غزل کے سب سے بڑے شاعر مانے جاتے ہیں۔ آپ کی شاعری میں سوز و گداز اور غم کی ایسی کیفیت ملتی ہے جو دلوں پر اثر کرتی ہے۔ آپ کے چھ اردو دیوان اور اہم تصانیف جیسے 'ذکرِ میر' اور 'نکات الشعراء' اردو ادب کا اثاثہ ہیں۔</div>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--accent);">غزل - 1</h3>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 1</div>
+                <div class="sher-text">رہی نگفتہ مرے دل میں داستاں میری<br>نہ اس دیار میں سمجھا کوئی زباں میری</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">شاعر اپنی تنہائی اور بے کسی کا ذکر کرتے ہوئے کہتا ہے کہ میرے دل کے دکھ اور میری داستانِ غم ان کہی رہ گئی۔ اس شہر یا معاشرے میں کوئی بھی ایسا نہیں ملا جو میرے درد اور میری کیفیات کو سمجھ سکے۔ تنہائی اور بے کسی کی کیفیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ تنہائی اور بے کسی کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 2</div>
+                <div class="sher-text">بہ رنگِ صوتِ جَرَس تجھ سے دور ہوں تنہا<br>خبر نہیں ہے تجھے آہ ، کارواں میری</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">میر کہتے ہیں کہ میری حالت اس گھنٹی کی آواز کی طرح ہے جو قافلے سے دور تنہا گونجتی ہے۔ اے میرے محبوب! تجھے علم ہی نہیں کہ میں تجھ سے دور کس کرب اور تنہائی میں زندگی گزار رہا ہوں۔ تنہائی اور کرب کی کیفیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ تنہائی اور کرب کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 3</div>
+                <div class="sher-text">اسی سے دُور رہا اصلِ مُدّعا جو تھا<br>گئی یہ عمرِ عزیز آہ! رائگاں میری</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">افسوس کا اظہار کرتے ہوئے شاعر کہتا ہے کہ جس مقصد اور جس محبوب کے حصول کے لیے میں نے زندگی گزاری، وہی مجھے نہ مل سکا۔ اس طرح میری یہ قیمتی زندگی بے مقصد اور ضائع ہو گئی۔ زندگی کے مقصد اور اس کی اہمیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ زندگی کے ہر مقصد کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 4</div>
+                <div class="sher-text">ترے فراق میں جیسے خیال مفلس کا<br>گئی ہے فکرِ پریشاں کہاں کہاں میری</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tاشریح-content">محبوب کی جدائی میں شاعر کے خیالات منتشر ہو گئے ہیں۔ جیسے ایک غریب آدمی اپنی ضرورتوں کے لیے ہر طرف سوچتا ہے، ویسے ہی میرا پریشان حال ذہن تیرے فراق میں بھٹکتا پھر رہا ہے۔ محبوب کی جدائی اور اس کے فراق کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ محبوب کی جدائی اور اس کے فراق کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 5</div>
+                <div class="سher-text">دیا دکھائی مجھے تو اُسی کا جلوہ میرؔ<br>پڑی جہاں میں جاکر نظر جہاں میری</div>
+                <div class="تشریح-label">تشریح</div>
+                <div class="تشریح-content">یہ شعر میر کے کلام میں وحدت الوجود کی جھلک دکھاتا ہے۔ شاعر کہتا ہے کہ کائنات میں جہاں بھی میری نظر پڑی، مجھے ہر شے میں اللہ تعالیٰ کا ہی جلوہ اور اس کی قدرت نظر آئی۔ وحدت الوجود اور اللہ کی قدرت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ وحدت الوجود اور اللہ کی قدرت کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <h3 style="text-align: center; margin-top: 3rem; margin-bottom: 1.5rem; color: var(--accent);">غزل - 2</h3>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 1</div>
+                <div class="sher-text">تھا مستعار حُسن سے اُس کے جو نور تھا<br>خورشید میں بھی اُس ہی کا ذرہ ظہور تھا</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">کائنات کی ہر خوبصورتی دراصل اللہ تعالیٰ کے حسن کا پرتو ہے۔ سورج میں جو روشنی اور چمک ہے، وہ بھی درحقیقت اسی عظیم ہستی کے نور کا ایک ادنیٰ سا حصہ ہے۔ کائنات کی خوبصورتی اور اللہ کے حسن کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ کائنات کی خوبصورتی اور اللہ کے حسن کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 2</div>
+                <div class="sher-text">منعم کے پاس قاقم و سنجاب تھا تو کیا؟<br>اُس رند کی بھی رات گزر گئی جو عُور تھا</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">زندگی کے اختتام پر سب برابر ہیں۔ اگر امیر کے پاس قیمتی لباس (قاقم و سنجاب) تھے تو کیا ہوا؟ وقت تو اس غریب اور ننگے شخص کا بھی گزر گیا جس کے پاس کچھ نہ تھا۔ موت سب کے لیے ایک جیسی ہے۔ زندگی کے اختتام اور موت کی کیفیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ زندگی کے اختتام اور موت کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 3</div>
+                <div class="sher-text">کل پاؤں ایک کاسۂ سر پر جو آ گیا<br>یکسر وہ استخوان شکستوں سے چُور تھا</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">شاعر ایک عبرت ناک منظر بیان کرتا ہے کہ کل میرا پاؤں راستے میں ایک انسانی کھوپڑی پر پڑ گیا، جو ہڈیوں کے ریزہ ریزہ ہونے کی وجہ سے بالکل چور ہو چکی تھی۔ موت اور فنا کی کیفیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ موت اور فنا کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 4</div>
+                <div class="sher-text">کہنے لگا کہ دیکھ کے چل راہ بے خبر!<br>میں بھی کبھی کِسو کا سرِ پُر غرور تھا</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">اس کھوپڑی سے گویا ایک آواز آئی کہ اے غافل انسان! ذرا سنبھل کر چل۔ میں بھی کبھی کسی زندہ انسان کا سر تھا جو غرور اور تکبر سے بھرا ہوا تھا، مگر آج خاک میں مل چکا ہوں۔ موت اور فنا کی کیفیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ موت اور فنا کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 5</div>
+                <div class="sher-text">تھا وہ تو رشکِ حور بہشتی ہمیں میں میرؔ<br>سمجھے نہ ہم تو فہم کا اپنے قصور تھا</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">وہ محبوب (یا حقیقتِ حق) تو ہمارے ہی درمیان موجود تھا اور اس کا حسن حوروں کے لیے بھی باعثِ رشک تھا۔ یہ ہماری اپنی عقل کا قصور تھا کہ ہم اسے پہچان نہ سکے۔ محبوب کی موجودگی اور اس کے حسن کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ محبوب کی موجودگی اور اس کے حسن کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+        </section>
+
+        <!-- Ghazal Section 3: Hasrat Mohani -->
+        <section class="section ghazal-section" id="ghazal3">
+            <h2 class="ghazal-title">حسرت موہانی</h2>
+
+            <div class="poet-reference">
+                <h3 class="hawala-main-title">حوالہ</h3>
+                <div class="reference-sub-section">
+                    <h4 class="reference-label">شاعر کا حوالہ</h4>
+                    <div class="reference-content">یہ کلام رئیس المتغزلین حسرت موہانی کا ہے۔</div>
+                </div>
+                <div class="reference-sub-section">
+                    <h4 class="reference-label">شاعر کا مختصر تعارف</h4>
+                    <div class="reference-content">سید فضل الحسن حسرت موہانی (1885ء – 1951ء) ایک ہمہ گیر شخصیت تھے۔ آپ بیک وقت ایک عظیم شاعر، نڈر صحافی اور تحریکِ آزادی کے سرگرم رہنما تھے۔ آپ کی شاعری میں تغزل کی قدیم روایت اور جدید سیاسی شعو ر کا حسین سنگم ملتا ہے۔ کلیاتِ حسرت آپ کا مجموعہ کلام ہے۔</div>
+                </div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 1</div>
+                <div class="sher-text">اپنا سا شوق اوروں میں لائیں کہاں سے ہم<br>گھبرا گئے ہیں بے دلی ہم رہاں سے ہم</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">شاعر کہتا ہے کہ جو تڑپ اور عشق کا جذبہ میرے اندر ہے، وہ دوسروں میں ملنا ناممکن ہے۔ میں اپنے ساتھ چلنے والے ان لوگوں سے پریشان ہوں جن کے دلوں میں وہ جوش اور لگن موجود نہیں ہے۔ عشق اور تڑپ کی کیفیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ عشق اور تڑپ کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 2</div>
+                <div class="sher-text">معلوم سب ہے پوچھتے ہو پھر بھی مدعا<br>اب تم سے دل کی بات کہیں کیا زباں سے ہم</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">محبوب سے مخاطب ہو کر شاعر کہتا ہے کہ آپ کو میرے دل کا حال اور میری خواہشات کا بخوبی علم ہے، پھر بھی آپ پوچھتے ہیں۔ جو بات آپ کو پہلے ہی معلوم ہے، اسے زبان سے بار بار بیان کرنے کی کیا ضرورت؟ عشق اور محبوب کی کیفیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ عشق اور محبوب کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 3</div>
+                <div class="sher-text">مایوس بھی تو کرتے نہیں تم زراہِ ناز<br>تنگ آگئے ہیں کشمکشِ امتحاں سے ہم</div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">شاعر ایک عجیب کیفیت میں ہے؛ محبوب نہ تو صاف انکار کرتا ہے اور نہ ہی مکمل قبولیت کا اظہار۔ امید اور ناامیدی کے درمیان یہ جو مسلسل امتحان چل رہا ہے، اس نے شاعر کو تھکا دیا ہے۔ امید اور ناامیدی کی کیفیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ امید اور ناامیدی کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 4</div>
+                <div class="sher-text">ہے انتہاے یاس بھی اک ابتداے شوق<br>پھر آگئے وہیں پڑے، چلے تھے جہاں سے ہم</div>
+                <div class="tashreeh-label">تشریح</div>
+               <div class="tashreeh-content">مایوسی کی آخری حد درحقیقت عشق کی ایک نئی شروعات ہوتی ہے۔ ہم گھوم پھر کر پھر وہیں پہنچ گئے ہیں جہاں سے ہماری محبت کا سفر شروع ہوا تھا۔ یہ جذبات کا ایک نہ ختم ہونے والا دائرہ ہے۔ عشق اور مایوسی کی کیفیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ عشق اور مایوسی کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+
+            <div class="sher-container">
+                <div class="sher-number">شعر 5</div>
+                <div class="sher-text">حسرت پھر اور جا کے کریں کس کی بندگی<br>اچھا، جو سر اٹھائیں بھی اس آستاں سے ہم</div>
+                <div class="tashreeh-label">تشریح</div>
+               <div class="tashreeh-content">اپنی وفاداری کا ثبوت دیتے ہوئے حسرت کہتے ہیں کہ اگر ہم آپ کی چوکھٹ چھوڑ بھی دیں، تو پھر کہاں جائیں گے؟ ہمارے لیے آپ کے در کے سوا اور کوئی ٹھکانہ یا بندگی کی جگہ نہیں ہے۔ وفاداری اور محبوب کی کیفیت کو سمجھنے اور ادراک کرنے کے لیے ہماری عقل اور علم کافی نہیں۔ وفاداری اور محبوب کی ہر کیفیت کو سمجھنے اور اس کو بیان کرنے کے لیے ہماری زبانوں کو تیری مدد کی ضرورت ہے۔</div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        let hideControlsTimeout;
+        const floatingControls = document.getElementById('floatingControls');
+        const themeSelector = document.getElementById('themeSelector');
+        const backToTop = document.getElementById('backToTop');
+
+        function showControls() {
+            floatingControls.classList.remove('hidden');
+            clearTimeout(hideControlsTimeout);
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        function showBackToTop() {
+            clearTimeout(backToTop.hideTimeout);
+            backToTop.classList.remove('hidden');
+            backToTop.hideTimeout = setTimeout(() => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        document.addEventListener('mousemove', showControls);
+        document.addEventListener('touchstart', showControls);
+        document.addEventListener('scroll', () => {
+            showControls();
+            if (window.scrollY > 300) {
+                showBackToTop();
+            }
+        });
+
+        floatingControls.addEventListener('mouseenter', () => {
+            clearTimeout(hideControlsTimeout);
+        });
+
+        floatingControls.addEventListener('mouseleave', () => {
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        });
+
+        backToTop.addEventListener('mouseenter', () => {
+            clearTimeout(backToTop.hideTimeout);
+        });
+
+        backToTop.addEventListener('mouseleave', () => {
+            showBackToTop();
+        });
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            themeSelector.classList.toggle('active');
+            if (themeSelector.classList.contains('active')) {
+                clearTimeout(hideControlsTimeout);
+            } else {
+                hideControlsTimeout = setTimeout(() => {
+                    floatingControls.classList.add('hidden');
+                }, 3000);
+            }
+        });
+
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const theme = option.dataset.theme;
+                body.setAttribute('data-theme', theme);
+                themeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                localStorage.setItem('urduNotesTheme', theme);
+                setTimeout(() => {
+                    themeSelector.classList.remove('active');
+                    hideControlsTimeout = setTimeout(() => {
+                        floatingControls.classList.add('hidden');
+                    }, 3000);
+                }, 500);
+            });
+        });
+
+        const savedTheme = localStorage.getItem('urduNotesTheme');
+        if (savedTheme) {
+            body.setAttribute('data-theme', savedTheme);
+            themeOptions.forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === savedTheme);
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+                showBackToTop();
+            } else {
+                backToTop.classList.remove('visible');
+                backToTop.classList.remove('hidden');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!floatingControls.contains(e.target)) {
+                themeSelector.classList.remove('active');
+            }
+        });
+
+        document.querySelectorAll('.jump-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        showControls();
+    </script>
+</body>
+</html>
