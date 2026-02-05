@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سوال و جواب</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #e8f5e3;
+            --bg-secondary: #f0f9ed;
+            --text-primary: #1a4d2e;
+            --text-secondary: #2d6a4f;
+            --accent: #52b788;
+            --border: #95d5b2;
+            --shadow: rgba(26, 77, 46, 0.1);
+            --bismillah-bg: #d8f3dc;
+        }
+
+        [data-theme="lightblue"] {
+            --bg-primary: #e3f2fd;
+            --bg-secondary: #f1f8ff;
+            --text-primary: #0d47a1;
+            --text-secondary: #1565c0;
+            --accent: #2196f3;
+            --border: #90caf9;
+            --shadow: rgba(13, 71, 161, 0.1);
+            --bismillah-bg: #dceefb;
+        }
+
+        [data-theme="yellow"] {
+            --bg-primary: #fff9e6;
+            --bg-secondary: #fffbf0;
+            --text-primary: #7d5a00;
+            --text-secondary: #a67c00;
+            --accent: #ffc107;
+            --border: #ffe082;
+            --shadow: rgba(125, 90, 0, 0.1);
+            --bismillah-bg: #fff4d6;
+        }
+
+        [data-theme="sepia"] {
+            --bg-primary: #f4ecd8;
+            --bg-secondary: #f9f3e6;
+            --text-primary: #5d4e37;
+            --text-secondary: #8b7355;
+            --accent: #c19a6b;
+            --border: #d4af87;
+            --shadow: rgba(93, 78, 55, 0.12);
+            --bismillah-bg: #ede2ce;
+        }
+
+        [data-theme="contrast"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f8f8;
+            --text-primary: #000000;
+            --text-secondary: #1a1a1a;
+            --accent: #000000;
+            --border: #333333;
+            --shadow: rgba(0, 0, 0, 0.15);
+            --bismillah-bg: #f0f0f0;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --text-primary: #e8e8e8;
+            --text-secondary: #c8c8c8;
+            --accent: #4a9eff;
+            --border: #404040;
+            --shadow: rgba(255, 255, 255, 0.05);
+            --bismillah-bg: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Noto Nastaliq Urdu', 'Amiri', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.9;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--shadow) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, var(--shadow) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .floating-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .floating-controls.hidden {
+            opacity: 0;
+            transform: translateX(-20px);
+            pointer-events: none;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.2;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+
+        .btn:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .theme-selector {
+            margin-top: 10px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 8px 24px var(--shadow);
+            backdrop-filter: blur(10px);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+
+        .theme-selector.active {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .theme-option {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            margin: 6px 0;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            box-shadow: 0 3px 8px var(--shadow);
+        }
+
+        .theme-option:hover {
+            transform: scale(1.15) translateX(5px);
+            border-color: var(--accent);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .theme-option.active {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 3px var(--bg-primary);
+        }
+
+        .theme-greenish { background: linear-gradient(135deg, #e8f5e3, #52b788); }
+        .theme-lightblue { background: linear-gradient(135deg, #e3f2fd, #2196f3); }
+        .theme-yellow { background: linear-gradient(135deg, #fff9e6, #ffc107); }
+        .theme-sepia { background: linear-gradient(135deg, #f4ecd8, #c19a6b); }
+        .theme-contrast { background: linear-gradient(135deg, #ffffff, #333333); }
+        .theme-dark { background: linear-gradient(135deg, #1a1a1a, #4a9eff); }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            z-index: 999;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top.hidden {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .bismillah-header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: var(--bismillah-bg);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 3px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bismillah-header::before {
+            content: '✦';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite;
+        }
+
+        .bismillah-header::after {
+            content: '✦';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite reverse;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .bismillah-urdu {
+            font-family: 'Scheherazade New', 'Noto Nastaliq Urdu', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px var(--shadow);
+            letter-spacing: 2px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .main-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .main-title h1 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 6px var(--shadow);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .main-title h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .section {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: var(--accent);
+            opacity: 0.04;
+            border-radius: 0 0 0 100%;
+            transition: all 0.4s ease;
+        }
+
+        .section:hover::before {
+            width: 180px;
+            height: 180px;
+            opacity: 0.08;
+        }
+
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .chapter-title {
+            font-family: 'Scheherazade New', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            padding-bottom: 1rem;
+        }
+
+        .chapter-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .qa-container {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .qa-container:hover {
+            border-color: var(--accent);
+            box-shadow: 0 6px 16px var(--shadow);
+            transform: translateX(-5px);
+        }
+
+        .qa-container::before {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 0;
+            background: var(--accent);
+            border-radius: 3px 0 0 3px;
+            transition: height 0.3s ease;
+        }
+
+        .qa-container:hover::before {
+            height: 80%;
+        }
+
+        .question-number {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-number::before {
+            content: '❓';
+            font-size: 1.2rem;
+        }
+
+        .question-text {
+            font-family: 'Noto Nastaliq Urdu', 'Scheherazade New', serif;
+            font-size: 1.8rem;
+            line-height: 2.5;
+            color: var(--text-primary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border: 2px dashed var(--border);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .answer-label {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .answer-label::before {
+            content: '✅';
+            font-size: 1.2rem;
+        }
+
+        .answer-content {
+            font-size: 1.15rem;
+            line-height: 2.2;
+            color: var(--text-secondary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .jump-menu {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 6px 20px var(--shadow);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .jump-menu h3 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+
+        .jump-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .jump-link {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            text-decoration: none;
+            border: 2px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-weight: 600;
+            font-size: 1.05rem;
+            box-shadow: 0 3px 10px var(--shadow);
+        }
+
+        .jump-link:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .bismillah-urdu {
+                font-size: 2.5rem;
+            }
+
+            .main-title h1 {
+                font-size: 2.2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .chapter-title {
+                font-size: 2rem;
+            }
+
+            .question-text {
+                font-size: 1.5rem;
+                padding: 1rem;
+            }
+
+            .question-number,
+            .answer-label {
+                font-size: 1.2rem;
+            }
+
+            .answer-content {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            .qa-container {
+                padding: 1.5rem;
+            }
+
+            .floating-controls {
+                top: 10px;
+                left: 10px;
+            }
+
+            .btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .theme-option {
+                width: 40px;
+                height: 40px;
+            }
+
+            .back-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .jump-link {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body data-theme="greenish">
+    <div class="floating-controls" id="floatingControls">
+        <div class="controls">
+            <button class="btn" id="themeToggle" title="تھیم منتخب کریں">🎨</button>
+        </div>
+        <div class="theme-selector" id="themeSelector">
+            <div class="theme-option theme-greenish active" data-theme="greenish"></div>
+            <div class="theme-option theme-lightblue" data-theme="lightblue"></div>
+            <div class="theme-option theme-yellow" data-theme="yellow"></div>
+            <div class="theme-option theme-sepia" data-theme="sepia"></div>
+            <div class="theme-option theme-contrast" data-theme="contrast"></div>
+            <div class="theme-option theme-dark" data-theme="dark"></div>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <div class="container">
+        <header class="bismillah-header">
+            <h1 class="bismillah-urdu">بِسْمِ اللہِ الرَّحْمٰنِ الرَّحِیْمِ</h1>
+        </header>
+
+        <div class="main-title">
+            <h1>سوال و جواب</h1>
+        </div>
+
+        <nav class="jump-menu">
+            <h3>ابواب کی فہرست</h3>
+            <div class="jump-links">
+                <a href="#chapter1" class="jump-link">قومی اتفاق</a>
+                <a href="#chapter2" class="jump-link">زبانِ گویا</a>
+                <a href="#chapter3" class="jump-link">فاقے میں روزہ</a>
+                <a href="#chapter4" class="jump-link">زیور کا ڈبا</a>
+                <a href="#chapter5" class="jump-link">بیگم کی بلی</a>
+                <a href="#chapter6" class="jump-link">تھر کی نادیہ</a>
+                <a href="#chapter7" class="jump-link">خواہ مخواہ کی لڑائی</a>
+                <a href="#chapter8" class="jump-link">خطِ غالب</a>
+            </div>
+        </nav>
+
+        <!-- باب 1: قومی اتفاق -->
+        <section class="section" id="chapter1">
+            <h2 class="chapter-title">قومی اتفاق</h2>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۱</div>
+                <div class="question-text">پرانے زمانے میں لفظ "قوم" سے کیا مراد لی جاتی تھی؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">پرانے زمانے میں قوم کا لفظ کسی بزرگ کی نسل یا کسی ملک کے باشندوں کے لیے استعمال ہوتا تھا۔ یعنی رنگ و نسل، خاندان اور جغرافیائی علاقے کی بنیاد پر قوموں کی تقسیم کی جاتی تھی۔ لیکن اسلام نے اس تفرقے کو مٹا کر ایک نیا روحانی رشتہ قائم کیا جو عقیدے اور ایمان پر مبنی ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۲</div>
+                <div class="question-text">اسلام نے تفرقۂ قومی کو مٹا کر کون سا رشتہ قائم کیا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">اسلام نے تمام دنیاوی تفرقوں کو مٹا کر ایک روحانی اور خدائی رشتہ قائم کیا جو "لا اله الا الله" کے لفظ پر مبنی ہے۔ یہ رشتہ حَبْلُ الْمَتِیْن (مضبوط رسی) کی طرح ہے جو تمام مسلمانوں کو ایک خاندان میں تبدیل کر دیتا ہے، چاہے وہ کسی بھی نسل، رنگ یا ملک سے تعلق رکھتے ہوں۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۳</div>
+                <div class="question-text">سرسید کے نزدیک قومی ترقی کا اوّلین مرحلہ کیا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">سر سید احمد خان کے نزدیک قومی ترقی کا سب سے پہلا مرحلہ قومی ہم دردی اور اتفاق قائم کرنا ہے۔ یعنی معاشرتی نفاق اور عداوت کو ختم کر کے آپسی محبت، دوستی اور ہمدردی کا رشتہ استوار کرنا۔ یہی بنیاد ہے جس پر قوم کی ترقی کی عمارت کھڑی ہوتی ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۴</div>
+                <div class="question-text">یکتائی و یک جہتی سے سرسید کی کیا مراد ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">یکتائی و یک جہتی سے سر سید کی مراد یہ ہے کہ تمام مسلمان اپنی شخصی عقائد میں اختلاف کے باوجود، معاشرتی معاملات میں ایک دوسرے کو ساتھ دیں۔ لیکن اس سے مطلب یہ نہیں ہے کہ سب لوگ ایک جیسا عقیدہ اختیار کریں بلکہ محدود معاملات میں اتفاق ہو۔ یہ قوم کی مضبوطی اور ترقی کے لیے ضروری ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۵</div>
+                <div class="question-text">مسلمانوں کے زوال کا سب سے بڑا سبب کیا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">سر سید کے مطابق مسلمانوں کے زوال کا سب سے بڑا سبب آپس میں نفاق، عداوت اور حسد ہے۔ انہوں نے بھائیوں جیسے رشتے کو بھول کر ایک دوسرے کے خلاف ہو گئے ہیں۔ یہ نا اتفاقی قوم کو ٹکڑے ٹکڑے کر دیتی ہے اور جمعیت کی برکت سے محروم کر دیتی ہے جو ترقی کا اہم ذریعہ ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۶</div>
+                <div class="question-text">سرسید کے مطابق قومی اتحاد کیسے قائم کیا جا سکتا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">سر سید کے نزدیک قومی اتحاد اس بات کو سمجھتے ہوئے قائم ہو سکتا ہے کہ انسان کے دو حصے ہیں۔ ایک خدا کا جو ہر شخص کے ذاتی عقائد سے متعلق ہے اور دوسرا انسانیت کا جو سماجی معاملات سے تعلق رکھتا ہے۔ انہیں الگ رکھتے ہوئے معاشرتی معاملات میں اتفاق کرنا چاہیے اور ایک دوسرے کی محبت و ہمدردی رکھنی چاہیے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۷</div>
+                <div class="question-text">قومی ہم دردی کے کیا فائدے ہیں؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">قومی ہم دردی کے فوائد میں قوم کی طاقت و سختی، باہمی تعاون، معاشی ترقی اور سماجی استحکام شامل ہے۔ جب قوم متحد ہو تو بڑے بڑے واقعات رونما ہوتے ہیں۔ موجودہ زمانے میں جہاں ترقی یافتہ اقوام ہیں وہاں قومی اتحاد ہے۔ اتفاق کے بغیر کوئی قوم ترقی نہیں کر سکتی۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۸</div>
+                <div class="question-text">شخصی اتفاق اور قومی اتفاق میں کیا فرق ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">شخصی اتفاق دو یا چند افراد کے درمیان محبت اور دوستی ہے جو کبھی نہیں رہتی۔ قومی اتفاق ایک پوری قوم کا معاشرتی اور سماجی معاملات میں اتفاق ہے جو قوم کی بنیاد ہے۔ قومی اتفاق میں انفرادی عقائد میں اختلاف ہو سکتا ہے لیکن معاشرتی مسائل میں اتفاق رہتا ہے۔</div>
+            </div>
+        </section>
+
+        <!-- باب 2: زبانِ گویا -->
+        <section class="section" id="chapter2">
+            <h2 class="chapter-title">زبانِ گویا</h2>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۱</div>
+                <div class="question-text">اس مضمون کے آغاز میں زبان کے لیے کون کون سے الفاظ و تراکیب استعمال ہوئے ہیں؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">حالی نے زبان کے لیے بہت خوبصورت الفاظ استعمال کیے ہیں۔ اسے "بلبل ہزار داستاں"، "طوطیِ شیوہ بیاں"، "قاصد"، "ترجمان"، "وکیل" اور "درخت کی ٹہنی" اور "چمن کا پودا" کہا گیا ہے۔ ہر تراکیب میں زبان کی ایک الگ صفت بیان کی گئی ہے جو اس کی اہمیت اور طاقت کو ظاہر کرتے ہیں۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۲</div>
+                <div class="question-text">بچپن میں زبان کا کیا کردار بیان کیا گیا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">بچپن میں زبان کا کردار بہت اہم ہے۔ اس کے ادھورے اور نازک الفاظ سے بچہ غیروں کو خوش کرتا ہے اور ماں باپ کو خوشی دیتا ہے لیکن کبھی اپنی شوخیوں سے ان کا دل بھی دکھاتا ہے۔ زبان سے نکلے ہوئے الفاظ کا اثر بہت گہرا ہوتا ہے، اسی لیے بچپن میں ہی صحیح زبان کی ترویج ضروری ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۳</div>
+                <div class="question-text">کن باتوں سے زبان کی خصوصیات کو نقصان پہنچتا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">جھوٹ، غیبت، بہتان تراشی، چغلی خوری، فریب اور مکر سے زبان کی خصوصیات کو نقصان پہنچتا ہے۔ اگر زبان جھوٹ بولے، غیبت کرے یا کسی کو نقصان پہنچائے تو اس کا حقیقی مقصد ختم ہو جاتا ہے۔ حالی کہتے ہیں کہ جھوٹی زبان تو زبان ہی نہیں بلکہ ایک لعنت ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۴</div>
+                <div class="question-text">حالی نے زبان کی طاقت کو نمونہ قدرت الہٰی کیوں کہا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">حالی کے نزدیک زبان کی طاقت خود خدا کی قدرت کا نمونہ ہے۔ ایک چھوٹی سی چیز (زبان) میں اتنی طاقت ہے کہ وہ دنیا کو بدل سکتی ہے۔ یہ دوست کو دشمن بنا سکتی ہے، دشمن کو دوست بنا سکتی ہے، لوگوں کو رلا سکتی ہے یا ہنسا سکتی ہے۔ یہ الہٰی طاقت کا کمال ہے کہ ایک تھوڑی سی چیز میں یہ سب صلاحیتیں ہیں۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۵</div>
+                <div class="question-text">زبان کو منصب اور خدمت کے لحاظ سے کن صفات کا حامل قرار دیا گیا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">حالی نے زبان کو "ناصح مشفق" (دل سے نصیحت کرنے والی) اور "مرشدِ برحق" (صحیح راہ دکھانے والی) کہا ہے۔ وعظ و نصیحت اور تلقین و ارشاد اس کے کام ہیں۔ علم خدا کا ایک خزانہ ہے، دل اس کا خزانچی ہے، حوصلہ قفل ہے اور زبان کنجی ہے۔ اس لیے اسے بہت احتیاط اور ذمہ داری سے استعمال کرنا چاہیے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۶</div>
+                <div class="question-text">زبان کے بہتر استعمال کے حوالے سے مُصنّف نے کیا دعا کی ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">حالی نے الہٰی سے دعا کی ہے کہ "اگر ہم کو گفتار کی آزادی ہے تو ہمیں راستگو (سچی زبان) دے، اور اگر دل پر تیرا اختیار ہے تو زبان پر ہمیں اختیار دے۔" وہ چاہتے ہیں کہ تمام لوگ سچی اور صحیح زبان بولیں۔ دنیا میں رہتے ہوئے سچے ہوں اور آخرت میں خدا کے سامنے خالص ہو کر جائیں۔</div>
+            </div>
+        </section>
+
+        <!-- باب 3: فاقے میں روزہ -->
+        <section class="section" id="chapter3">
+            <h2 class="chapter-title">فاقے میں روزہ</h2>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۱</div>
+                <div class="question-text">نیتھن خان کے گانے سے اکتا کر انّاں حضرت نے کیا حکم صادر فرمایا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">مرزا سلیم کی ماں (امّاں حضرت) نے نیتھن خان کے گانے اور شور و غل سے اکتاتے ہوئے حکم دیا کہ رمضان میں گانے بجانے کی محفلیں بند کر دی جائیں۔ وہ قرآن شریف پڑھا کرتی تھیں اور اس شور سے ان کی عبادت میں خلل پڑتا تھا۔ یہ حکم دینی اور روحانی فریضوں کے لیے دیا گیا تھا۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۲</div>
+                <div class="question-text">مصاحب نے مرزا صاحب کو کیا مشورہ دیا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">مصاحب نے مرزا سلیم کو مشورہ دیا کہ شام کو افطاری سے پہلے جامع مسجد میں جایا کریں۔ وہاں رمضان کا ایک عجیب نظارہ ہوتا ہے۔ لوگ قرآن سنتے ہیں، مسائل دین پر بحث کرتے ہیں اور خدا والوں کا جمگھٹا رہتا ہے۔ اس سے نہ صرف دل کا بہلاؤ ہوتا ہے بلکہ روحانی فائدہ بھی ملتا ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۳</div>
+                <div class="question-text">"کُلُّ جَدِیدٍ لَذِیذٌ" سے کیا مراد ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">"ہر نیا چیز لذیذ ہے" اس کہاوت کا مطلب ہے کہ جو چیز نئی ہو یا نیا تجربہ ہو وہ ہمیشہ دلچسپ اور خوشگوار لگتی ہے۔ مرزا سلیم نے جب مسجد میں جا کر خدا والوں کی صحبت کی تو یہ نیا تجربہ ان کو بہت پسند آیا۔ اس سے ان کے ذہن کو نئی تسکین اور روحانی سکون ملا۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۴</div>
+                <div class="question-text">رمضان میں افطاری کے وقت مسجد میں کیا سماں تھا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">افطاری کے وقت مسجد میں رنگ برنگ کی خوانوں کا سماں تھا۔ شہنشاہی محل سے اور اعزام سے متعدد خوانیں بھیجے جاتے تھے تاکہ روزے دار لوگوں کو کھانا ملے۔ ہر امیر اپنی طاقت سے بہتر سامان بھیجتا تھا۔ ریشمی رنگ برنگ کے خوان اور جھالریں سجائی جاتی تھیں۔ یہ دینی عمل اور خاندانی شان کا نمونہ تھا۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۵</div>
+                <div class="question-text">مرزا صاحب کو کیا بات اچھی لگی کہ وہ با قاعدہ مسجد آنے لگے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">مرزا کو مسجد میں خدا والوں کی محفل، قرآن کی تلاوت، دینی مسائل کی بحث اور روحانی ماحول بہت اچھا لگا۔ گھر میں بھی انہوں نے دیکھا کہ سیکڑوں فقرا کو کھانا کھلایا جاتا ہے اور رات دن کے لہو و لعب کے باوجود رمضان میں برکت اور چہل پہل ہے۔ یہ دیکھ کر ان کا دل بدل گیا اور وہ باقاعدہ مسجد آنے لگے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۶</div>
+                <div class="question-text">غدر کی تباہی کے شاہی خاندان پر اثرات بیان کیجیے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">غدر کے بعد شاہی خاندان بہت مشکلات میں پھنس گیا۔ بادشاہ کو قلعہ سے نکل کر بھاگنا پڑا۔ امیروں کو پھانسیاں دی گئیں۔ گھرے خود گئے۔ بیگمات ماما گیری کرنے پر مجبور ہو گئیں۔ مسلمانوں کی تمام شان و شوکت تاراج ہو گئی۔ شہنشاہوں کی عزت و جلال ختم ہو گیا اور بے کسی و بے یاری کا دور آ گیا۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۷</div>
+                <div class="question-text">والدہ کی خاموشی اور اطمینان سے مرزا کے دل کو کیا احساس ہوا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">جب والدہ نے بھوک کی حالت میں خاموشی کے ساتھ صبر کیا تو مرزا کے دل کو بھی سہارا ملا۔ سخت مشکلات میں بھی والدہ کی صبر اور تسلیم رضا نے مرزا کے دل میں طاقت پیدا کی۔ وہ نے اپنی چھوٹی بہن کو دلاسا دیتے ہوئے کہا کہ خدا ہمیں سہی راستے پر رکھے۔ یہ صبر اور ایمان ہی تھا جو ان کو مشکلات میں خود کو سنبھالے رکھا۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۸</div>
+                <div class="question-text">افسانہ نگار نے زندگی میں سچی خوشی حاصل کرنے کا کیا طریقہ بتایا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">افسانے سے معلوم ہوتا ہے کہ سچی خوشی غیبت یا چوری کے پیسوں میں نہیں بلکہ صبر، ایمان اور سچی محنت میں ہے۔ جب مرزا نے اپنی غلطی کا احساس کیا اور زیوروں کو واپس کر دیا تو اسے ایک طاقتور احساس ملا۔ ٹھاکر صاحب کی مہربانی کی قدر کرتے ہوئے جیا ہوا حیات ہی سچی خوشی ہے۔</div>
+            </div>
+        </section>
+
+        <!-- باب 4: زیور کا ڈبا -->
+        <section class="section" id="chapter4">
+            <h2 class="chapter-title">زیور کا ڈبا</h2>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۱</div>
+                <div class="question-text">چندر پرکاش نے عملی زندگی کا آغاز کس طرح کیا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">بی۔اے پاس کرنے کے بعد چندر پرکاش کو تیس روپے ماہ وار کی ٹیوشن سے گزر اوقات کرنی پڑی۔ والدین کا انتقال ہو چکا تھا اور کوئی جائیداد نہ تھی۔ ٹھاکر صاحب نے انہیں مکان دے کر مدد کی۔ یہ تھا ان کا عملی زندگی کا آغاز جہاں غربت اور مشکلات تھیں لیکن اپنی لگن اور ایمان داری سے وہ آگے بڑھے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۲</div>
+                <div class="question-text">کس بات سے ظاہر ہوتا ہے کہ ٹھاکر صاحب چندر پرکاش پر اعتماد کرتے تھے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">ٹھاکر صاحب چندر پرکاش کو اپنے ہی لڑکے کی طرح سمجھتے تھے۔ ان سے گھر کے ہر معاملے میں مشورہ لیا جاتا تھا۔ دس بارہ ہزار روپے خرچ کرنے کا اختیار دیا۔ دس ہزار روپے کی ضمانت دی۔ غلط کام سے سمجھتے ہی نہ چھوڑا بلکہ سرجھکا کر شرمندگی ظاہر کی۔ یہ سب باتیں ان کے اعتماد اور محبت کا ثبوت ہیں۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۳</div>
+                <div class="question-text">چندر پرکاش کے ذہن میں بے ایمانی کا خیال کیسے آیا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">جب چندر پرکاش نے ٹھاکر صاحب کے پانچ ہزار روپے کے زیورات دیکھے تو ان کے ذہن میں غیر ارادی طور پر بے ایمانی کا خیال آ گیا۔ وہ سوچنے لگے کہ اتنے قیمتی زیورات رات بھر خود اپنے گھر میں محفوظ رکھ سکتے ہیں۔ غربت اور مشکل حالات نے اس غلط سوچ کو جنم دیا لیکن ان کے اندر کی انسانیت نے اس سے بچایا۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۴</div>
+                <div class="question-text">چندر پرکاش نے ٹھاکر صاحب کا گھر کیوں چھوڑا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">چندر پرکاش نے سمجھا کہ چوری میں وہ خود ذمہ دار تھے کیونکہ دروازہ ان کے حصہ میں تھا۔ اگر دوبارہ چوری ہو تو عورتوں پر خطرہ ہے اور تمام ذمہ داری ان پر آئے گی۔ اس لیے انہوں نے ایک احساس ذمہ داری کے تحت ٹھاکر صاحب کا گھر چھوڑ دیا تاکہ دوسری بار کوئی خطرہ نہ ہو۔ یہ ان کی شریفانہ سوچ تھی۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۵</div>
+                <div class="question-text">ٹھاکر صاحب کے چندر پرکاش پر کسی ایک احسان کی تفصیل بتائیے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">ٹھاکر صاحب کا سب سے بڑا احسان یہ تھا کہ انہوں نے بغیر کرایے کا مکان دیا۔ یہ مکان پختہ، ہوا دار اور صاف ستھرا تھا جس کا کرایہ کم از کم بیس روپے مہینے تھا۔ یہ احسان اتنا بڑا تھا کہ چندر پرکاش کے پورے دل میں ان کی محبت سما گئی۔ انہوں نے یہ مکان اس لیے دیا تھا تاکہ چندر پرکاش خوش ہو کر اچھی طرح کام کریں۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۶</div>
+                <div class="question-text">چندر پرکاش اور اُس کی بیوی کے کرداروں کا تقابل کیجیے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">چندر پرکاش میں ابتدائی بے ایمانی کا خیال آیا لیکن آخر میں انسانی شرافت نے اسے غلط کام سے بچا دیا۔ چمپا نے ہمیشہ اپنے شوہر کو ٹھاکر صاحب کے احسانات کی یاد دلاتی رہی اور اس کا ضمیر جاگ رہتی رہی۔ چمپا کی سمجھ اور شریفانہ سوچ نے چندر پرکاش کو صحیح راستے پر رکھا۔ یہ بیوی کا کردار ہے جو شوہر کو اخلاقی پناہ دیتا ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۷</div>
+                <div class="question-text">چمپا کو ایسا کیوں محسوس ہوا کہ اس کا بچھڑا ہوا خاوند بہت مدت کے بعد گھر آیا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">جب چندر پرکاش نے زیورات کا ڈبا واپس ٹھاکر صاحب کے گھر میں رکھ دیا تو چمپا کو محسوس ہوا کہ گویا اس کا خاوند ایک نیا انسان بن کر واپس آیا ہے۔ صبح ٹھاکر صاحب کے یہاں زیورات مل جانے سے خوشی کی خبر سن کر اس کی خوشی اور مسرت کا ٹھکانا نہ رہا۔ یہ فرق پڑ گیا تھا چندر پرکاش کے ضمیر میں، اس کے دل میں، جو نظر آ رہا تھا۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۸</div>
+                <div class="question-text">افسانہ نگار نے ہمیں کیا سبق دیا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">پریم چند نے اس افسانے سے سبق دیا ہے کہ ہمیشہ سچائی اور ایمان داری میں ہی سچی خوشی ہے۔ چاہے دنیاوی مال و دولت ملتے ہوں لیکن بے ایمانی سے حاصل کیا ہوا مال دل میں اضطراب اور بے چینی پیدا کرتا ہے۔ مہربان لوگوں کے احسانات کو نہ بھولنا چاہیے بلکہ ان کا قدر کرنی چاہیے اور اپنی اخلاقی ذمہ داری کو نبھانا چاہیے۔</div>
+            </div>
+        </section>
+
+        <!-- باب 5: بیگم کی بلی -->
+        <section class="section" id="chapter5">
+            <h2 class="chapter-title">بیگم کی بلی</h2>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۱</div>
+                <div class="question-text">بلّی کا رنگ سیاہ کیسے ہوا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">میاں بیگم کی بلی سے بیزار تھا اس لیے اسے دریا پر چھوڑ کر آیا۔ بلی خود ہی واپس آ گئی لیکن رات بھر دریا سے باہر نہیں نکل سکی۔ کوئلوں کی دھول میں رولو لگی اور خود کو بچانے کے لیے کوئلوں کی کوٹھری میں بند کر دیا گیا۔ اسی وجہ سے بلی کا سفید رنگ سیاہ ہو گیا۔ یہ ایک ہلکے پھلکے انداز میں بتایا گیا ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۲</div>
+                <div class="question-text">امیدوار نے بیگم کی بلّی کو ٹھکانے لگانے کے لیے کتنی رقم طلب کی؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">امیدوار نے شروع میں پانچ روپے کا نوٹ طلب کیا لیکن میاں صرف ایک روپیہ دینا چاہتے تھے۔ امیدوار نے اپنی بات پر ڈٹے رہے کہ وہ کم سے کم پانچ روپے لیں گے۔ آخر میں میاں کو پانچ روپے دینے پڑے۔ میاں نے یہ سارا واقعہ اپنے دیور سے بیان کرتے ہوئے خود کو اور غریب امیدوار کو مظلوم ظاہر کیا۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۳</div>
+                <div class="question-text">میاں بلّی سے کیوں بیزار تھا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">میاں بلی سے کئی وجوہات سے بیزار تھا۔ بلی کاغذات کو داغ دار کرتی تھی، سفید بستر پر چڑھ جاتی تھی اور اسے میلا کر دیتی تھی۔ مرغی کے بچوں میں سے دو کو ٹھکانے لگا دیا۔ بیگم کو اپنے اوپر نہایت توجہ سے مسرور رکھتی تھی اور میاں کو نظر انداز کرتی تھی۔ اس سب سے میاں بلی سے نفرت کر گیا تھا۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۴</div>
+                <div class="question-text">میاں نے بیگم کو خریداری کے لیے کیوں بھیجا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">میاں بیگم کے غم کو سمجھتے ہوئے اسے خریداری کے لیے بھیجا تاکہ وہ کچھ دیر بازار میں گھومے پھرے اور اس طرح اپنی بیماری (بلی کے بارے میں سوچنا) سے محفوظ رہے۔ یہ میاں کی سوچ تھی کہ تبدیلی اور حرکت سے بیگم کی طبیعت بہتر ہو جائے۔ لیکن اس میں ایک ہوشیاری بھی تھی کہ میاں اپنی بے ایمانی کو چھپا سکیں۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۵</div>
+                <div class="question-text">بیگم نے خریداری کی رقم کا کیا کیا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">بیگم نے خریداری کی رقم میں سے دس روپے میں ایک نئی بلی خریدی جو سیاہ تھی (کیونکہ وہ کوئلے والے کے یہاں رہتی تھی)۔ اسی سے بیگم کو اندازہ ہو گیا کہ یہ بلی ایک دوسری ہے لیکن وہ اسے اپنی سالم بلی سمجھنا چاہتی تھی۔ باقی روپے سے انہوں نے نئے ملازم کو بھی رکھ لیا اور اس سے آشی ہو گئیں۔</div>
+            </div>
+        </section>
+
+        <!-- باب 6: تھر کی نادیہ -->
+        <section class="section" id="chapter6">
+            <h2 class="chapter-title">تھر کی نادیہ کماچھی</h2>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۱</div>
+                <div class="question-text">کارو جھر چٹانی سلسلہ کس جگہ واقع ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">کار و جھر کا چٹانی سلسلہ صحرائے تھر میں ننگر پارکر کے قریب واقع ہے۔ یہ سرخ رنگ کی چٹانوں کا ایک عجوبہ ہے جو ہزاروں سال پرانا ہے۔ اس میں خشک اور چٹیل باہر کے باوجود اندر میٹھے اور خنک پانیوں کے ذخیرے ہیں۔ یہ صحرا میں ایک طاقتور علامت ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۲</div>
+                <div class="question-text">مصنف نے ننگر پارکر کی منظر کشی کس طرح کی ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">مصنف نے ننگر پارکر کو بے آب و گیاہ، چٹانی حصار والا اور ہوائوں کی سسکیوں والا بیان کیا ہے۔ یہاں کی چٹانیں بہت بلند اور خشک ہیں۔ اردگرد بالکل سناٹا ہے اور صحرائی سختیاں ہیں۔ یہ غربت اور کشمکش کا ایک منظر ہے جہاں بچے لکڑیاں توڑ کر اپنا پیٹ بھرتے ہیں۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۳</div>
+                <div class="question-text">تھر کی بچی کس بات کا دعویٰ کر رہی تھی؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">نادیہ کہہ رہی تھی کہ وہ اس چٹانی سلسلے کی بلندترین چوٹی تک میں صرف تین منٹ میں پہنچ سکتی ہے جہاں ایک جھنڈا لہرا رہا ہے۔ وہ وہاں جا کر جھنڈے کو ہاتھ لگا کر دو منٹ میں واپس آ سکتی ہے۔ یہ دعویٰ اتنا بڑا تھا کہ کامران جیسا تجربے کار کوہ نور بھی اس سے متاثر ہوا۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۴</div>
+                <div class="question-text">تھر کی نادیہ کمانچی کے کردار پر روشنی ڈالیے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">نادیہ کہاں سے آئی یہ معلوم نہیں لیکن وہ تھر کے صحرا میں لکڑیاں چننے والی بچی ہے۔ غربت اور ضرورت نے اسے یہ جرأت بخشی ہے۔ وہ مجبور ہے کہ درانتی لیے پھریں اور لکڑیاں توڑے۔ لیکن ایک بار آنے والے سیاحوں سے جھنڈے تک پہنچنے کا کھیل بھی کھیل دیتی ہے۔ یہ غربت میں بھی شرارت اور حوصلہ کا نمونہ ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۵</div>
+                <div class="question-text">مصنف نے تھر کی بچی کو کس عالمی شہرت یافتہ لڑکی کے مترادف مانا؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">مصنف نے نادیہ کو نادیہ کوما نیچی سے موازنہ کیا ہے۔ رومانیہ کی کوما نیچی جمناسٹ تھی اور بین الاقوامی شہرت یافتہ تھی۔ مصنف کہتے ہیں کہ تھر کی نادیہ اگر مناسب تربیت پائے تو کوما نیچی سے کم نہیں ہو سکتی۔ دونوں میں ایک جیسی جسمانی لچک، حوصلہ اور جرأت ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۶</div>
+                <div class="question-text">ایتھوپیا کے کس شخص کا مصنف نے ذکر کیا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">مصنف نے ایتھوپیا کے بیکیلا کا ذکر کیا ہے جو ننگے پاؤں دوڑنے والا دوڑاک تھا۔ وہ روم اولمپک میں شرکت کرتے ہوئے میراتھن دوڑ جیتا ہے اور ایتھوپیا کا پہلا سونے کا تمغہ لاتا ہے۔ مصنف کہتے ہیں کہ اگر تھر کی نادیہ کو مناسب موقع اور تربیت دی جائے تو وہ بھی اولمپک میں میڈل جیت سکتی ہے۔</div>
+            </div>
+        </section>
+
+        <!-- باب 7: خواہ مخواہ کی لڑائی -->
+        <section class="section" id="chapter7">
+            <h2 class="chapter-title">خواہ مخواہ کی لڑائی</h2>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۱</div>
+                <div class="question-text">خواہ مخواہ کی لڑائی سے مصنف کی کیا مراد ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">خواہ مخواہ کی لڑائی دراصل بغیر کسی وجہ یا سبب کے ہونے والی لڑائی ہے۔ یہ کوئی اصل لڑائی نہیں بلکہ انسانوں کے طبعی غصے اور اشتعال کا نتیجہ ہے۔ مصنف کہتے ہیں کہ اصل لڑائی ہمیشہ بغیر وجہ شروع ہوتی ہے۔ جس لڑائی میں کوئی منطقی سبب ہو تو وہ انتظام یا مقابلہ ہے، لڑائی نہیں۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۲</div>
+                <div class="question-text">لڑائی میں الجھنے اور الجھانے میں کیا فرق ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="question-text">اس سوال کا جواب متن میں مختلف انداز میں بیان ہوا ہے۔ الجھنے سے مراد خود لڑائی میں شامل ہونا ہے جبکہ الجھانے سے مراد دوسروں کو لڑائی میں ڈالنا ہے۔ مصنف نے اشتعال بہانے اور اس کے طریقوں پر گفتگو کی ہے۔</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">الجھنے سے مراد خود لڑائی میں شامل ہونا اور الجھانے سے مراد دوسروں کو لڑائی میں ڈالنا ہے۔ اشتعال بہانے والے لوگ محدود فائدے کے لیے دوسروں کو لڑائی میں الجھاتے ہیں لیکن خود محفوظ رہتے ہیں۔ یہ ایک نقصان دہ رویہ ہے جو معاشرے میں تقسیم اور نفاق پیدا کرتا ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۳</div>
+                <div class="question-text">خواہ مخواہ کی لڑائی کا ہماری شخصیت اور ماحول پر کیا اثر ہوتا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">خواہ مخواہ کی لڑائی ہماری شخصیت کو خراب کرتی ہے اور ہمیں بے عزت کرتی ہے۔ ماحول میں غلط فہمی، دشمنی اور نفاق پھیلاتی ہے۔ گھر میں تقسیم ہو جاتی ہے، بچوں پر برا اثر پڑتا ہے۔ معاشرے میں امن و شانتی ختم ہو جاتی ہے۔ ایسی لڑائیوں سے برتن ٹوٹتے ہیں، کپڑے پھٹتے ہیں اور بعض اوقات خون خرابے تک نوبت پہنچ جاتی ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۴</div>
+                <div class="question-text">خواہ مخواہ کی لڑائی سے دامن چھڑانے کا بہترین طریقہ کیا ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">خواہ مخواہ کی لڑائی سے بچنے کا بہترین طریقہ یہ ہے کہ ہمارا احساس اور سمجھ جاگ رہے۔ جب ہمیں احساس ہو کہ یہ خواہ مخواہ کی لڑائی ہے تو فوری طور پر اس سے دوری اختیار کریں۔ عقل اور حکمت سے کام لیں۔ اگر شخصی لڑائی ہے تو فوری اسے سمجھ کر اسے سنبھالنا چاہیے۔ بصیرت اور سمجھ داری ہی ان لڑائیوں سے بچانے والی طاقت ہے۔</div>
+            </div>
+        </section>
+
+        <!-- باب 8: خطِ غالب -->
+        <section class="section" id="chapter8">
+            <h2 class="chapter-title">خطِ غالب بہ نام میر مہدی مجروح</h2>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۱</div>
+                <div class="question-text">خط کے مکتوب نگار اور مکتوب الیہ کے نام لکھیے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">اس خط کے مکتوب نگار (لکھنے والے) مرزا اسد اللہ خاں غالب ہیں اور مکتوب الیہ (جس کو خط لکھا ہے) میر مہدی مجروح ہیں۔ یہ خط غالب نے اپنے دوست میر مہدی مجروح کو لکھا تھا۔ اس میں غالب اپنے دوست کو مختلف معاملات سے متعلق خوشامد انگیز بات کہہ رہے ہیں۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۲</div>
+                <div class="question-text">خط نویسی کے سلسلے میں محمد شاہی روش سے غالب کی کیا مراد ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">محمد شاہی روش سے غالب کی مراد وہ قدیم خط نویسی کی روایت ہے جو شاہ جہانوں کے دور میں تھی۔ اس میں خط نویسی کا ایک خاص انداز تھا۔ غالب نے اس روایت کی طرف اشارہ کرتے ہوئے کہا ہے کہ پرانے زمانے میں خط لکھنے کا انداز بہت احتیاط اور لطافت سے بھرا ہوتا تھا۔ یہ صرف معلومات دینے تک محدود نہیں تھا۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۳</div>
+                <div class="question-text">خط سے بے تکلف گفتگو کی ایک مثال لکھیے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">غالب اپنے خط میں بہت بے تکلفی سے کہتے ہیں: "تم کیا چاہتے ہو؟ ہم نے مجتہد العصر کے مسودے کو اصلاح دے کر بھیج دیا۔ اب اور کیا لکھوں؟" یہ بہت کاہل انہ اور بے تکلف انداز ہے۔ غالب نے اپنے دوست سے خاموشی سے اپنے پیار کو ظاہر کیا ہے۔ وہ لکھتے ہیں: "ہم جانتے ہیں کہ تم زندہ ہو۔ تم جانتے ہو کہ ہم زندہ ہیں۔" یہ خالصتاً دوستی کا بے تکلف انداز ہے۔</div>
+            </div>
+
+            <div class="qa-container">
+                <div class="question-number">سوال ۴</div>
+                <div class="question-text">غالب نے اس خط میں نئے اندازِ خط نگاری کے حوالے سے کن امور کی نشان دہی کی ہے؟</div>
+                <div class="answer-label">جواب</div>
+                <div class="answer-content">غالب نے نئے انداز کی خط نگاری میں سادگی، کمی لفاظی اور بے تکلفی کو اہم قرار دیا ہے۔ انہوں نے کہا کہ جو بات ضروری ہے وہ لکھو، بقیہ چیزوں کو موخر کر دو۔ ایک خط میں تین سطریں کافی ہیں۔ دوسری طرف انہوں نے شہر کی خاموشی، غدر کے بعد کی حالات اور اپنے ارد گرد کے لوگوں کی موت و مرض کی معلومات دی ہے۔ یہ سب کچھ ایک سادہ اور براہ راست انداز میں کہا گیا ہے۔</div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let hideControlsTimeout;
+        const floatingControls = document.getElementById('floatingControls');
+        const themeSelector = document.getElementById('themeSelector');
+        const backToTop = document.getElementById('backToTop');
+
+        function showControls() {
+            floatingControls.classList.remove('hidden');
+            clearTimeout(hideControlsTimeout);
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        function showBackToTop() {
+            clearTimeout(backToTop.hideTimeout);
+            backToTop.classList.remove('hidden');
+            backToTop.hideTimeout = setTimeout(() => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        document.addEventListener('mousemove', showControls);
+        document.addEventListener('touchstart', showControls);
+        document.addEventListener('scroll', () => {
+            showControls();
+            if (window.scrollY > 300) {
+                showBackToTop();
+            }
+        });
+
+        floatingControls.addEventListener('mouseenter', () => {
+            clearTimeout(hideControlsTimeout);
+        });
+
+        floatingControls.addEventListener('mouseleave', () => {
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        });
+
+        backToTop.addEventListener('mouseenter', () => {
+            clearTimeout(backToTop.hideTimeout);
+        });
+
+        backToTop.addEventListener('mouseleave', () => {
+            showBackToTop();
+        });
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            themeSelector.classList.toggle('active');
+            if (themeSelector.classList.contains('active')) {
+                clearTimeout(hideControlsTimeout);
+            } else {
+                hideControlsTimeout = setTimeout(() => {
+                    floatingControls.classList.add('hidden');
+                }, 3000);
+            }
+        });
+
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const theme = option.dataset.theme;
+                body.setAttribute('data-theme', theme);
+                themeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                localStorage.setItem('urduNotesTheme', theme);
+                setTimeout(() => {
+                    themeSelector.classList.remove('active');
+                    hideControlsTimeout = setTimeout(() => {
+                        floatingControls.classList.add('hidden');
+                    }, 3000);
+                }, 500);
+            });
+        });
+
+        const savedTheme = localStorage.getItem('urduNotesTheme');
+        if (savedTheme) {
+            body.setAttribute('data-theme', savedTheme);
+            themeOptions.forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === savedTheme);
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+                showBackToTop();
+            } else {
+                backToTop.classList.remove('visible');
+                backToTop.classList.remove('hidden');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!floatingControls.contains(e.target)) {
+                themeSelector.classList.remove('active');
+            }
+        });
+
+        document.querySelectorAll('.jump-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        showControls();
+    </script>
+</body>
+</html>

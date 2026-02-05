@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نثار نگاروں پر تبصرہ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #e8f5e3;
+            --bg-secondary: #f0f9ed;
+            --text-primary: #1a4d2e;
+            --text-secondary: #2d6a4f;
+            --accent: #52b788;
+            --border: #95d5b2;
+            --shadow: rgba(26, 77, 46, 0.1);
+            --bismillah-bg: #d8f3dc;
+        }
+
+        [data-theme="lightblue"] {
+            --bg-primary: #e3f2fd;
+            --bg-secondary: #f1f8ff;
+            --text-primary: #0d47a1;
+            --text-secondary: #1565c0;
+            --accent: #2196f3;
+            --border: #90caf9;
+            --shadow: rgba(13, 71, 161, 0.1);
+            --bismillah-bg: #dceefb;
+        }
+
+        [data-theme="yellow"] {
+            --bg-primary: #fff9e6;
+            --bg-secondary: #fffbf0;
+            --text-primary: #7d5a00;
+            --text-secondary: #a67c00;
+            --accent: #ffc107;
+            --border: #ffe082;
+            --shadow: rgba(125, 90, 0, 0.1);
+            --bismillah-bg: #fff4d6;
+        }
+
+        [data-theme="sepia"] {
+            --bg-primary: #f4ecd8;
+            --bg-secondary: #f9f3e6;
+            --text-primary: #5d4e37;
+            --text-secondary: #8b7355;
+            --accent: #c19a6b;
+            --border: #d4af87;
+            --shadow: rgba(93, 78, 55, 0.12);
+            --bismillah-bg: #ede2ce;
+        }
+
+        [data-theme="contrast"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f8f8;
+            --text-primary: #000000;
+            --text-secondary: #1a1a1a;
+            --accent: #000000;
+            --border: #333333;
+            --shadow: rgba(0, 0, 0, 0.15);
+            --bismillah-bg: #f0f0f0;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --text-primary: #e8e8e8;
+            --text-secondary: #c8c8c8;
+            --accent: #4a9eff;
+            --border: #404040;
+            --shadow: rgba(255, 255, 255, 0.05);
+            --bismillah-bg: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Noto Nastaliq Urdu', 'Amiri', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.9;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--shadow) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, var(--shadow) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .floating-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .floating-controls.hidden {
+            opacity: 0;
+            transform: translateX(-20px);
+            pointer-events: none;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.2;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+
+        .btn:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .theme-selector {
+            margin-top: 10px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 8px 24px var(--shadow);
+            backdrop-filter: blur(10px);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+
+        .theme-selector.active {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .theme-option {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            margin: 6px 0;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            box-shadow: 0 3px 8px var(--shadow);
+        }
+
+        .theme-option:hover {
+            transform: scale(1.15) translateX(5px);
+            border-color: var(--accent);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .theme-option.active {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 3px var(--bg-primary);
+        }
+
+        .theme-greenish { background: linear-gradient(135deg, #e8f5e3, #52b788); }
+        .theme-lightblue { background: linear-gradient(135deg, #e3f2fd, #2196f3); }
+        .theme-yellow { background: linear-gradient(135deg, #fff9e6, #ffc107); }
+        .theme-sepia { background: linear-gradient(135deg, #f4ecd8, #c19a6b); }
+        .theme-contrast { background: linear-gradient(135deg, #ffffff, #333333); }
+        .theme-dark { background: linear-gradient(135deg, #1a1a1a, #4a9eff); }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            z-index: 999;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top.hidden {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .bismillah-header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: var(--bismillah-bg);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 3px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bismillah-header::before {
+            content: '✦';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite;
+        }
+
+        .bismillah-header::after {
+            content: '✦';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite reverse;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .bismillah-urdu {
+            font-family: 'Scheherazade New', 'Noto Nastaliq Urdu', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px var(--shadow);
+            letter-spacing: 2px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .main-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .main-title h1 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 6px var(--shadow);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .main-title h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .section {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: var(--accent);
+            opacity: 0.04;
+            border-radius: 0 0 0 100%;
+            transition: all 0.4s ease;
+        }
+
+        .section:hover::before {
+            width: 180px;
+            height: 180px;
+            opacity: 0.08;
+        }
+
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .writer-name {
+            font-family: 'Scheherazade New', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            padding-bottom: 1rem;
+        }
+
+        .writer-name::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .tabsira-main-section {
+            margin-top: 2rem;
+        }
+
+        .tabsira-heading {
+            font-family: 'Scheherazade New', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--bismillah-bg), var(--bg-secondary));
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .characteristic-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .characteristic-item {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .characteristic-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--border));
+        }
+
+        .characteristic-item:hover {
+            border-color: var(--accent);
+            box-shadow: 0 8px 20px var(--shadow);
+            transform: translateY(-5px);
+        }
+
+        .characteristic-title {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-right: 1rem;
+        }
+
+        .characteristic-text {
+            font-size: 1.1rem;
+            line-height: 2;
+            color: var(--text-secondary);
+            padding: 0 1rem;
+        }
+
+        .jump-menu {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 6px 20px var(--shadow);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .jump-menu h3 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+
+        .jump-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .jump-link {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            text-decoration: none;
+            border: 2px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-weight: 600;
+            font-size: 1.05rem;
+            box-shadow: 0 3px 10px var(--shadow);
+        }
+
+        .jump-link:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .bismillah-urdu {
+                font-size: 2.5rem;
+            }
+
+            .main-title h1 {
+                font-size: 2.2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .writer-name {
+                font-size: 2rem;
+            }
+
+            .characteristic-title {
+                font-size: 1.2rem;
+            }
+
+            .characteristic-text {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+
+            .floating-controls {
+                top: 10px;
+                left: 10px;
+            }
+
+            .btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .theme-option {
+                width: 40px;
+                height: 40px;
+            }
+
+            .back-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .jump-link {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body data-theme="greenish">
+    <div class="floating-controls" id="floatingControls">
+        <div class="controls">
+            <button class="btn" id="themeToggle" title="تھیم منتخب کریں">🎨</button>
+        </div>
+        <div class="theme-selector" id="themeSelector">
+            <div class="theme-option theme-greenish active" data-theme="greenish"></div>
+            <div class="theme-option theme-lightblue" data-theme="lightblue"></div>
+            <div class="theme-option theme-yellow" data-theme="yellow"></div>
+            <div class="theme-option theme-sepia" data-theme="sepia"></div>
+            <div class="theme-option theme-contrast" data-theme="contrast"></div>
+            <div class="theme-option theme-dark" data-theme="dark"></div>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <div class="container">
+        <header class="bismillah-header">
+            <h1 class="bismillah-urdu">بِسْمِ اللہِ الرَّحْمٰنِ الرَّحِیْمِ</h1>
+        </header>
+
+        <div class="main-title">
+            <h1>نثار نگاروں پر تبصرہ</h1>
+        </div>
+
+        <nav class="jump-menu">
+            <h3>نثار نگاروں کی فہرست</h3>
+            <div class="jump-links">
+                <a href="#writer1" class="jump-link">سر سید احمد خان</a>
+                <a href="#writer2" class="jump-link">خواجہ الطاف حسین حالی</a>
+                <a href="#writer3" class="jump-link">خواجہ حسن نظامی</a>
+                <a href="#writer4" class="jump-link">منشی پریم چند</a>
+            </div>
+        </nav>
+
+        <!-- نثار نگار 1: سر سید احمد خان -->
+        <section class="section" id="writer1">
+            <h2 class="writer-name">سر سید احمد خان</h2>
+            
+            <div class="tabsira-main-section">
+                <h3 class="tabsira-heading">سر سید احمد خان کی نثر نگاری کی خصوصیات</h3>
+                
+                <div class="characteristic-container">
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۔ سادگی اور روانی</h4>
+                        <p class="characteristic-text">سر سید کی نثر سادہ اور آسان فہم زبان میں ہوتی ہے تاکہ ہر قاری اسے آسانی سے سمجھ سکے۔ ان کا انداز براہ راست اور بے تکلف ہوتا ہے جو عام لوگوں کے لیے قابل فہم ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۲۔ واضح اور منطقی انداز</h4>
+                        <p class="characteristic-text">ان کی تحریر میں خیالات کو ترتیب وار اور مدلل انداز میں بیان کیا جاتا ہے۔ وہ اپنے نقاط کو سائنسی اور معقول انداز میں پیش کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۳۔ تعلیمی اور اصالحی مقصد</h4>
+                        <p class="characteristic-text">سر سید کی نثر کا بنیادی مقصد مسلمانوں کو تعلیم، شعور اور اصالح کی طرف راغب کرنا تھا۔ وہ معاشرے میں بیداری اور فکری انقلاب لانا چاہتے تھے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۴۔ عصری مسائل کی عکاسی</h4>
+                        <p class="characteristic-text">ان کی تحریر میں برصغیر کی مسلمانوں کی موجودہ حالت، مشکلات اور مسائل پر روشنی ڈالی گئی ہے۔ وہ اپنے دور کے سیاسی، سماجی اور معاشی مسائل کا تجزیہ کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۵۔ اخلاقی اور فکری تعلیم</h4>
+                        <p class="characteristic-text">ان کی نثر میں اخلاق، کردار سازی اور معاشرتی ذمہ داریوں پر زور دیا گیا ہے۔ وہ نئی نسل کو صحیح راستہ دکھانا چاہتے تھے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۶۔ دلچسپ مثالیں اور تشبیہات</h4>
+                        <p class="characteristic-text">سر سید اپنے خیالات کو واضح کرنے کے لیے مثالیں اور آسان تشبیہات استعمال کرتے ہیں۔ یہ طریقہ ان کی نثر کو زیادہ اثر انگیز اور دلکش بناتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۷۔ تاریخی اور ثقافتی شعور</h4>
+                        <p class="characteristic-text">ان کی تحریر میں مسلمانوں کی تاریخ اور ثقافت کا شعور موجود ہوتا ہے۔ وہ ماضی کی عظمت کو سمجھتے ہوئے مستقبل کے لیے نقشہ بناتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۸۔ دلچسپی پیدا کرنے والا اسلوب</h4>
+                        <p class="characteristic-text">ان کی نثر پڑھنے میں دلچسپ اور قاری کو متوجہ کرنے والی ہوتی ہے۔ وہ تحریر کے ذریعے سامعین کو اپنی طرف کھینچتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۹۔ سماجی اصالح کی کوشش</h4>
+                        <p class="characteristic-text">سر سید کی تحریر کا مقصد معاشرتی اور فکری اصالح ہے، تاکہ قوم ترقی کی راہ پر گامزن ہو۔ وہ بہتری اور تبدیلی کے لیے کام کرنے کا مقصد رکھتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۰۔ علم و شعور کی بیداری</h4>
+                        <p class="characteristic-text">ان کی نثر میں علمی اور فکری بیداری پیدا کرنے کی کوشش کی گئی ہے، خاص طور پر نوجوانوں کے لیے۔ وہ سوچنے سمجھنے کی صلاحیت پیدا کرنا چاہتے تھے۔</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- نثار نگار 2: خواجہ الطاف حسین حالی -->
+        <section class="section" id="writer2">
+            <h2 class="writer-name">خواجہ الطاف حسین حالی</h2>
+            
+            <div class="tabsira-main-section">
+                <h3 class="tabsira-heading">خواجہ الطاف حسین حالی کی نثر نگاری کی خصوصیات</h3>
+                
+                <div class="characteristic-container">
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۔ عاطفی اور دلکش انداز</h4>
+                        <p class="characteristic-text">حالی کی نثر میں عاطفیت اور دلکشی بہت نمایاں ہے۔ وہ قاری کے دل تک پہنچنے کے لیے جذباتی انداز استعمال کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۲۔ شاعرانہ اسلوب</h4>
+                        <p class="characteristic-text">اگرچہ حالی نثار تھے، لیکن ان کی نثر میں شاعرانہ لطافت اور موسیقی ملتی ہے۔ ان کی تحریر میں شاعری کی خوبصورتی ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۳۔ اخلاقی اور مذہبی مضامین</h4>
+                        <p class="characteristic-text">ان کی نثر میں اخلاق، مذہب اور روحانیت کے مضامین نمایاں ہیں۔ وہ اسلامی تعلیمات کو اردو میں پیش کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۴۔ تہذیب اور ثقافت کا محافظ</h4>
+                        <p class="characteristic-text">حالی اردو تہذیب اور ثقافت کے محافظ تھے۔ ان کی تحریر میں ہندوستانی اور اسلامی ثقافت کا امتزاج ملتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۵۔ تاریخی شعور</h4>
+                        <p class="characteristic-text">ان کی نثر میں تاریخی واقعات اور ماضی کی یادیں شامل ہوتی ہیں۔ وہ ماضی سے سبق لیتے ہوئے حال کا تجزیہ کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۶۔ سماجی اصالح کا مقصد</h4>
+                        <p class="characteristic-text">حالی کا بنیادی مقصد معاشرے میں اصالح اور بہتری لانا تھا۔ وہ خاص طور پر خواتین کی تعلیم اور حقوق کے لیے لکھتے تھے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۷۔ شخصی اور انسانی لمسہ</h4>
+                        <p class="characteristic-text">ان کی تحریر میں شخصی تجربات اور انسانی جذبات کا لمسہ ہوتا ہے۔ وہ خود کو قاری کے قریب لاتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۸۔ زبان کی خوبصورتی</h4>
+                        <p class="characteristic-text">حالی کی اردو نثر بہت خوبصورت اور سالم ہے۔ ان کے الفاظ اور جملے بہت دقت سے چنے ہوئے ہوتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۹۔ علمی اور ادبی قدر</h4>
+                        <p class="characteristic-text">حالی کی نثر میں علمی گہرائی اور ادبی شان ہوتی ہے۔ وہ اردو ادب کو ایک نیا معیار دیتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۰۔ قاری کے ساتھ رشتہ</h4>
+                        <p class="characteristic-text">حالی اپنی تحریر کے ذریعے قاری کے ساتھ گہرا رشتہ بناتے ہیں۔ وہ قاری کو احساس دلاتے ہیں کہ وہ ان سے براہ راست بات کر رہے ہیں۔</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- نثار نگار 3: خواجہ حسن نظامی -->
+        <section class="section" id="writer3">
+            <h2 class="writer-name">خواجہ حسن نظامی</h2>
+            
+            <div class="tabsira-main-section">
+                <h3 class="tabsira-heading">خواجہ حسن نظامی کی نثر نگاری کی خصوصیات</h3>
+                
+                <div class="characteristic-container">
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۔ دینی اور اسلامی مضامین</h4>
+                        <p class="characteristic-text">نظامی کی نثر میں دینی اور اسلامی موضوعات کا غلبہ ہے۔ وہ اسلام کو سائنسی اور منطقی انداز میں پیش کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۲۔ علمی اور تحقیقی انداز</h4>
+                        <p class="characteristic-text">ان کی تحریر میں علمی گہرائی اور تحقیقی روح ہے۔ وہ اپنے دعووں کو حوالوں اور دلائل سے ثابت کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۳۔ معاشرتی شعور</h4>
+                        <p class="characteristic-text">نظامی کی نثر میں معاشرے کے مسائل اور ان کے حل پر بحث ملتی ہے۔ وہ عملی اصالح میں یقین رکھتے تھے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۴۔ تہذیب و تمدن کی تشریح</h4>
+                        <p class="characteristic-text">ان کی تحریر میں اسلامی تہذیب اور تمدن کی تشریح ملتی ہے۔ وہ مسلمانوں کی عظیم روایات کو اجاگر کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۵۔ فکری بیداری</h4>
+                        <p class="characteristic-text">نظامی کا مقصد فکری بیداری اور شعور میں اضافہ ہے۔ وہ لوگوں کو سوچنے اور سمجھنے پر مجبور کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۶۔ سادہ اور واضح انداز</h4>
+                        <p class="characteristic-text">اگرچہ ان کے موضوعات پیچیدہ ہوتے ہیں، لیکن ان کا انداز سادہ اور واضح رہتا ہے۔ وہ مشکل باتوں کو آسان بناتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۷۔ تاریخی شواہد</h4>
+                        <p class="characteristic-text">ان کی تحریر میں تاریخی حقائق اور شواہد شامل ہوتے ہیں۔ وہ اپنے نقاط کو ماضی سے دلائل دیتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۸۔ نوجوانوں سے خطاب</h4>
+                        <p class="characteristic-text">نظامی کی تحریر خاص طور پر نوجوانوں کو مخاطب کرتی ہے۔ وہ نئی نسل کو اپنے ذریعے پیغام دینا چاہتے تھے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۹۔ عملی نقطہ نظر</h4>
+                        <p class="characteristic-text">نظامی کی نثر میں عملی نقطہ نظر ہے۔ وہ صرف نظریہ نہیں بلکہ عملی حل پیش کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۰۔ قومی اور مذہبی غیرت</h4>
+                        <p class="characteristic-text">ان کی تحریر میں قومی اور مذہبی غیرت ہے۔ وہ اپنی قوم اور دین کے لیے لکھتے ہیں اور ان کی خدمت میں کوشاں رہتے ہیں۔</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- نثار نگار 4: منشی پریم چند -->
+        <section class="section" id="writer4">
+            <h2 class="writer-name">منشی پریم چند</h2>
+            
+            <div class="tabsira-main-section">
+                <h3 class="tabsira-heading">منشی پریم چند کی نثر نگاری کی خصوصیات</h3>
+                
+                <div class="characteristic-container">
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۔ حقیقت پسندی اور سماجی تنقید</h4>
+                        <p class="characteristic-text">پریم چند کی نثر میں حقیقت پسندی اور سماجی تنقید کا غلبہ ہے۔ وہ معاشرے کی بُرائیوں کو براہ راست اجاگر کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۲۔ عام لوگوں کی داستانیں</h4>
+                        <p class="characteristic-text">ان کی نثر میں عام لوگوں کی کہانیاں ہیں۔ وہ معمولی انسانوں کے معمولی جیون کو بڑے ادب کا موضوع بناتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۳۔ غربت اور بدحالی کا تصور</h4>
+                        <p class="characteristic-text">پریم چند کی تحریر میں غربت، بھوک، اور معاشی مشکلات کی گہری تصویر ملتی ہے۔ وہ کمزوروں کے ہمدرد ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۴۔ نسوانی مسائل پر روشنی</h4>
+                        <p class="characteristic-text">ان کی نثر میں خواتین کے مسائل اور ان کی حالت پر خصوصی توجہ ملتی ہے۔ وہ عورتوں کے حقوق کے لیے لکھتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۵۔ کسانوں اور مزدوروں کا نقیب</h4>
+                        <p class="characteristic-text">پریم چند کسانوں اور مزدوروں کے درد کو سمجھتے ہیں اور ان کی صدائے احتجاج اپنی تحریر میں سنوتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۶۔ اخلاقی اور نیتی پسندی</h4>
+                        <p class="characteristic-text">اگرچہ پریم چند سماجی مسائل پیش کرتے ہیں، لیکن وہ اخلاقی اقدار میں بھی بہت سخت ہیں۔ ان کی تحریر میں نیتی کا پیغام ملتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۷۔ زبان کی سادگی</h4>
+                        <p class="characteristic-text">ان کی اردو بہت سادہ اور عوامی ہے۔ وہ مشکل الفاظ استعمال نہیں کرتے بلکہ عام فہم زبان میں لکھتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۸۔ مذہب اور سماج میں توازن</h4>
+                        <p class="characteristic-text">ان کی نثر میں سماجی اور مذہبی مسائل کا توازن ملتا ہے۔ وہ دونوں پہلوؤں پر متوازی توجہ دیتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۹۔ انسانی ہمدردی</h4>
+                        <p class="characteristic-text">پریم چند کی تحریر میں انسانی ہمدردی اور شفقت کا غلبہ ہے۔ وہ تمام انسانوں کو ایک نظر سے دیکھتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۰۔ سماجی اصالح کا مقصد</h4>
+                        <p class="characteristic-text">ان کا بنیادی مقصد معاشرے میں اصالح لانا ہے۔ وہ اپنی تحریر کے ذریعے لوگوں کو بہتری کی طرف لانا چاہتے ہیں۔</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let hideControlsTimeout;
+        const floatingControls = document.getElementById('floatingControls');
+        const themeSelector = document.getElementById('themeSelector');
+        const backToTop = document.getElementById('backToTop');
+
+        function showControls() {
+            floatingControls.classList.remove('hidden');
+            clearTimeout(hideControlsTimeout);
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        function showBackToTop() {
+            clearTimeout(backToTop.hideTimeout);
+            backToTop.classList.remove('hidden');
+            backToTop.hideTimeout = setTimeout(() => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        document.addEventListener('mousemove', showControls);
+        document.addEventListener('touchstart', showControls);
+        document.addEventListener('scroll', () => {
+            showControls();
+            if (window.scrollY > 300) {
+                showBackToTop();
+            }
+        });
+
+        floatingControls.addEventListener('mouseenter', () => {
+            clearTimeout(hideControlsTimeout);
+        });
+
+        floatingControls.addEventListener('mouseleave', () => {
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        });
+
+        backToTop.addEventListener('mouseenter', () => {
+            clearTimeout(backToTop.hideTimeout);
+        });
+
+        backToTop.addEventListener('mouseleave', () => {
+            showBackToTop();
+        });
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            themeSelector.classList.toggle('active');
+            if (themeSelector.classList.contains('active')) {
+                clearTimeout(hideControlsTimeout);
+            } else {
+                hideControlsTimeout = setTimeout(() => {
+                    floatingControls.classList.add('hidden');
+                }, 3000);
+            }
+        });
+
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const theme = option.dataset.theme;
+                body.setAttribute('data-theme', theme);
+                themeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                localStorage.setItem('urduNotesTheme', theme);
+                setTimeout(() => {
+                    themeSelector.classList.remove('active');
+                    hideControlsTimeout = setTimeout(() => {
+                        floatingControls.classList.add('hidden');
+                    }, 3000);
+                }, 500);
+            });
+        });
+
+        const savedTheme = localStorage.getItem('urduNotesTheme');
+        if (savedTheme) {
+            body.setAttribute('data-theme', savedTheme);
+            themeOptions.forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === savedTheme);
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+                showBackToTop();
+            } else {
+                backToTop.classList.remove('visible');
+                backToTop.classList.remove('hidden');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!floatingControls.contains(e.target)) {
+                themeSelector.classList.remove('active');
+            }
+        });
+
+        document.querySelectorAll('.jump-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        showControls();
+    </script>
+</body>
+</html>

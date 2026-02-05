@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شاعروں پر تبصرہ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #e8f5e3;
+            --bg-secondary: #f0f9ed;
+            --text-primary: #1a4d2e;
+            --text-secondary: #2d6a4f;
+            --accent: #52b788;
+            --border: #95d5b2;
+            --shadow: rgba(26, 77, 46, 0.1);
+            --bismillah-bg: #d8f3dc;
+        }
+
+        [data-theme="lightblue"] {
+            --bg-primary: #e3f2fd;
+            --bg-secondary: #f1f8ff;
+            --text-primary: #0d47a1;
+            --text-secondary: #1565c0;
+            --accent: #2196f3;
+            --border: #90caf9;
+            --shadow: rgba(13, 71, 161, 0.1);
+            --bismillah-bg: #dceefb;
+        }
+
+        [data-theme="yellow"] {
+            --bg-primary: #fff9e6;
+            --bg-secondary: #fffbf0;
+            --text-primary: #7d5a00;
+            --text-secondary: #a67c00;
+            --accent: #ffc107;
+            --border: #ffe082;
+            --shadow: rgba(125, 90, 0, 0.1);
+            --bismillah-bg: #fff4d6;
+        }
+
+        [data-theme="sepia"] {
+            --bg-primary: #f4ecd8;
+            --bg-secondary: #f9f3e6;
+            --text-primary: #5d4e37;
+            --text-secondary: #8b7355;
+            --accent: #c19a6b;
+            --border: #d4af87;
+            --shadow: rgba(93, 78, 55, 0.12);
+            --bismillah-bg: #ede2ce;
+        }
+
+        [data-theme="contrast"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f8f8;
+            --text-primary: #000000;
+            --text-secondary: #1a1a1a;
+            --accent: #000000;
+            --border: #333333;
+            --shadow: rgba(0, 0, 0, 0.15);
+            --bismillah-bg: #f0f0f0;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --text-primary: #e8e8e8;
+            --text-secondary: #c8c8c8;
+            --accent: #4a9eff;
+            --border: #404040;
+            --shadow: rgba(255, 255, 255, 0.05);
+            --bismillah-bg: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Noto Nastaliq Urdu', 'Amiri', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.9;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--shadow) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, var(--shadow) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .floating-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .floating-controls.hidden {
+            opacity: 0;
+            transform: translateX(-20px);
+            pointer-events: none;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.2;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+
+        .btn:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .theme-selector {
+            margin-top: 10px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 8px 24px var(--shadow);
+            backdrop-filter: blur(10px);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+
+        .theme-selector.active {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .theme-option {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            margin: 6px 0;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            box-shadow: 0 3px 8px var(--shadow);
+        }
+
+        .theme-option:hover {
+            transform: scale(1.15) translateX(5px);
+            border-color: var(--accent);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .theme-option.active {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 3px var(--bg-primary);
+        }
+
+        .theme-greenish { background: linear-gradient(135deg, #e8f5e3, #52b788); }
+        .theme-lightblue { background: linear-gradient(135deg, #e3f2fd, #2196f3); }
+        .theme-yellow { background: linear-gradient(135deg, #fff9e6, #ffc107); }
+        .theme-sepia { background: linear-gradient(135deg, #f4ecd8, #c19a6b); }
+        .theme-contrast { background: linear-gradient(135deg, #ffffff, #333333); }
+        .theme-dark { background: linear-gradient(135deg, #1a1a1a, #4a9eff); }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            z-index: 999;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top.hidden {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .bismillah-header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: var(--bismillah-bg);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 3px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bismillah-header::before {
+            content: '✦';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite;
+        }
+
+        .bismillah-header::after {
+            content: '✦';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite reverse;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .bismillah-urdu {
+            font-family: 'Scheherazade New', 'Noto Nastaliq Urdu', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px var(--shadow);
+            letter-spacing: 2px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .main-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .main-title h1 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 6px var(--shadow);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .main-title h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .section {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: var(--accent);
+            opacity: 0.04;
+            border-radius: 0 0 0 100%;
+            transition: all 0.4s ease;
+        }
+
+        .section:hover::before {
+            width: 180px;
+            height: 180px;
+            opacity: 0.08;
+        }
+
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .poet-name {
+            font-family: 'Scheherazade New', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            padding-bottom: 1rem;
+        }
+
+        .poet-name::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .poet-intro-container {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .poet-intro-container:hover {
+            border-color: var(--accent);
+            box-shadow: 0 6px 16px var(--shadow);
+        }
+
+        .poet-intro-label {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .poet-intro-label::before {
+            content: '🖋️';
+            font-size: 1.4rem;
+        }
+
+        .poet-intro-content {
+            font-size: 1.15rem;
+            line-height: 2.2;
+            color: var(--text-secondary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .tabsira-container {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tabsira-container:hover {
+            border-color: var(--accent);
+            box-shadow: 0 6px 16px var(--shadow);
+            transform: translateX(-5px);
+        }
+
+        .tabsira-container::before {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 0;
+            background: var(--accent);
+            border-radius: 3px 0 0 3px;
+            transition: height 0.3s ease;
+        }
+
+        .tabsira-container:hover::before {
+            height: 80%;
+        }
+
+        .tabsira-label {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tabsira-label::before {
+            content: '💡';
+            font-size: 1.2rem;
+        }
+
+        .tabsira-content {
+            font-size: 1.15rem;
+            line-height: 2.2;
+            color: var(--text-secondary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .tabsira-main-section {
+            margin-top: 2rem;
+        }
+
+        .tabsira-heading {
+            font-family: 'Scheherazade New', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--bismillah-bg), var(--bg-secondary));
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .characteristic-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .characteristic-item {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .characteristic-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--border));
+        }
+
+        .characteristic-item:hover {
+            border-color: var(--accent);
+            box-shadow: 0 8px 20px var(--shadow);
+            transform: translateY(-5px);
+        }
+
+        .characteristic-title {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding-right: 1rem;
+        }
+
+        .characteristic-text {
+            font-size: 1.1rem;
+            line-height: 2;
+            color: var(--text-secondary);
+            padding: 0 1rem;
+        }
+
+        .jump-menu {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 6px 20px var(--shadow);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .jump-menu h3 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+
+        .jump-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .jump-link {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            text-decoration: none;
+            border: 2px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-weight: 600;
+            font-size: 1.05rem;
+            box-shadow: 0 3px 10px var(--shadow);
+        }
+
+        .jump-link:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .bismillah-urdu {
+                font-size: 2.5rem;
+            }
+
+            .main-title h1 {
+                font-size: 2.2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .poet-name {
+                font-size: 2rem;
+            }
+
+            .poet-intro-label,
+            .tabsira-label {
+                font-size: 1.2rem;
+            }
+
+            .poet-intro-content,
+            .tabsira-content {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            .tabsira-container,
+            .poet-intro-container {
+                padding: 1.5rem;
+            }
+
+            .floating-controls {
+                top: 10px;
+                left: 10px;
+            }
+
+            .btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .theme-option {
+                width: 40px;
+                height: 40px;
+            }
+
+            .back-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .jump-link {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body data-theme="greenish">
+    <div class="floating-controls" id="floatingControls">
+        <div class="controls">
+            <button class="btn" id="themeToggle" title="تھیم منتخب کریں">🎨</button>
+        </div>
+        <div class="theme-selector" id="themeSelector">
+            <div class="theme-option theme-greenish active" data-theme="greenish"></div>
+            <div class="theme-option theme-lightblue" data-theme="lightblue"></div>
+            <div class="theme-option theme-yellow" data-theme="yellow"></div>
+            <div class="theme-option theme-sepia" data-theme="sepia"></div>
+            <div class="theme-option theme-contrast" data-theme="contrast"></div>
+            <div class="theme-option theme-dark" data-theme="dark"></div>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <div class="container">
+        <header class="bismillah-header">
+            <h1 class="bismillah-urdu">بِسْمِ اللہِ الرَّحْمٰنِ الرَّحِیْمِ</h1>
+        </header>
+
+        <div class="main-title">
+            <h1>شاعروں پر تبصرہ</h1>
+        </div>
+
+        <nav class="jump-menu">
+            <h3>شاعروں کی فہرست</h3>
+            <div class="jump-links">
+                <a href="#poet1" class="jump-link">نظیر اکبر آبادی</a>
+                <a href="#poet2" class="jump-link">خواجہ میر درد</a>
+                <a href="#poet3" class="jump-link">میرزا غالب</a>
+                <a href="#poet4" class="jump-link">حسرت موہانی</a>
+            </div>
+        </nav>
+
+        <!-- شاعر 1: نظیر اکبر آبادی -->
+        <section class="section" id="poet1">
+            <h2 class="poet-name">نظیر اکبر آبادی</h2>
+            
+            <div class="tabsira-main-section">
+                <h3 class="tabsira-heading">نظیر اکبر آبادی کی شاعرانہ خصوصیات</h3>
+                
+                <div class="characteristic-container">
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۔ سادگی اور فصاحت</h4>
+                        <p class="characteristic-text">نظیر کی شاعری میں زبان کی سادگی اور روانی ہے، جس سے ہر قاری آسانی سے جڑ سکتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۲۔ طنز و مزاح</h4>
+                        <p class="characteristic-text">ان کے کالم میں طنز اور مزاح بڑی مہارت کے ساتھ استعمال کیا گیا ہے، جو معاشرتی مسائل پر ہلکے انداز میں روشنی ڈالتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۳۔ معاشرتی شعور</h4>
+                        <p class="characteristic-text">نظیر کی شاعری میں معاشرتی برائیوں، فریب اور جھوٹ پر تنقید ملتی ہے، جو قاری کو سوچنے پر مجبور کرتی ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۴۔ زندگی کی حقیقت پسندی</h4>
+                        <p class="characteristic-text">ان کے اشعار میں زندگی کے تلخ حقائق اور انسانی کمزوریوں کو براہ راست بیان کیا گیا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۵۔ روزمرہ زبان اور محاورات</h4>
+                        <p class="characteristic-text">ان کی شاعری میں عام بول چال کی زبان اور محاورات کا استعمال زیادہ ہے، جس سے اشعار زیادہ دلچسپ اور عام فہم بن جاتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۶۔ عاشقانہ اور رومانوی پہلو</h4>
+                        <p class="characteristic-text">بعض اشعار میں رومانوی رنگ اور محبت کی لطافت بھی موجود ہے، جو کالم کو متوازن بناتی ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۷۔ حقیقت اور طنز کا امتزاج</h4>
+                        <p class="characteristic-text">نظیر اکبر آبادی کے کالم میں حقیقت اور طنز کا حسین امتزاج دیکھنے کو ملتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۸۔ مختصر اور مؤثر انداز</h4>
+                        <p class="characteristic-text">ان کی شاعری میں لمبے بیان کے بجائے مختصر مگر اثر انگیز اشعار ملتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۹۔ علم و فکر کی عکاسی</h4>
+                        <p class="characteristic-text">ان کے اشعار میں دنیاوی علم، معاشرتی شعور اور فلسفیانہ نقطہ نظر کی جھلک بھی موجود ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۰۔ دلکش تشبیہات و استعارے</h4>
+                        <p class="characteristic-text">بعض اشعار میں خوبصورت تشبیہات و استعارے استعمال کیے گئے ہیں جو کالم کو یادگار بناتے ہیں۔</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- شاعر 2: خواجہ میر درد -->
+        <section class="section" id="poet2">
+            <h2 class="poet-name">خواجہ میر درد</h2>
+            
+            <div class="tabsira-main-section">
+                <h3 class="tabsira-heading">خواجہ میر درد کی شاعرانہ خصوصیات</h3>
+                
+                <div class="characteristic-container">
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۔ روحانی مضامین</h4>
+                        <p class="characteristic-text">ان کی شاعری میں خدا سے محبت اور روحانی بیداری کے مضامین بہت نمایاں ہیں۔ وہ الہی فیض اور قرب خداوندی کو شاعری کا مرکزی موضوع بناتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۲۔ صوفیانہ انداز</h4>
+                        <p class="characteristic-text">ان کی نظموں میں صوفیانہ فلسفہ اور تصوف کے اثرات نمایاں ہیں۔ عشق الہی اور توحید ان کی شاعری کی بنیاد ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۳۔ انسانی درد کی عکاسی</h4>
+                        <p class="characteristic-text">میر درد انسانی درد، غم اور احساسات کو بہت خوبصورتی سے بیان کرتے ہیں۔ ان کی شاعری میں تکلیف اور سوگ کا گہرا اظہار ملتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۴۔ فنی مہارت</h4>
+                        <p class="characteristic-text">ان کی نظموں میں شاعری کی فنی خوبیوں جیسے علیق، استعارہ اور دیگر صنائع کا خوبصورت استعمال ملتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۵۔ موسیقیت اور لہجہ</h4>
+                        <p class="characteristic-text">ان کی شاعری میں لہجے کی موسیقیت اور الفاظ کا انتخاب بہت خوبصورت ہے، جو قاری کے دل کو چھوتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۶۔ اخلاقی سبق</h4>
+                        <p class="characteristic-text">ان کی نظموں میں اخلاقی سبق اور معنوی پیغام نہایت واضح ہوتے ہیں۔ وہ قاری کو ہدایت اور روحانی علم فراہم کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۷۔ سلاستِ بیان</h4>
+                        <p class="characteristic-text">ان کی نثری سی شاعری میں نرمی اور سلاستِ بیان کا خصوصی امتزاج ہے جو قاری کو متاثر کرتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۸۔ مذہبی شعور</h4>
+                        <p class="characteristic-text">ان کی شاعری میں اسلامی تعلیمات اور قرآنی حکمت کا گہرا اثر موجود ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۹۔ عاشقانہ جذبہ</h4>
+                        <p class="characteristic-text">الہی عشق ان کی شاعری کا مرکز ہے اور یہ جذبہ ہر شعر میں جھلکتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۰۔ روحانی تزکیہ</h4>
+                        <p class="characteristic-text">ان کی نظمیں نفس کی پاکی اور روحانی تزکیے کی طرف بلاہتی ہیں۔</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- شاعر 3: میرزا غالب -->
+        <section class="section" id="poet3">
+            <h2 class="poet-name">میرزا غالب</h2>
+            
+            <div class="tabsira-main-section">
+                <h3 class="tabsira-heading">میرزا غالب کی شاعرانہ خصوصیات</h3>
+                
+                <div class="characteristic-container">
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۔ فکری گہرائی</h4>
+                        <p class="characteristic-text">ان کی شاعری میں فکری گہرائی اور فلسفیانہ مضامین نمایاں ہیں۔ وہ زندگی کے پیچیدہ مسائل کو شاعری میں بیان کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۲۔ نئے الفاظ اور انداز</h4>
+                        <p class="characteristic-text">غالب نے اردو شاعری میں نئے الفاظ، نئے تشبیہیں اور نیا انداز لایا۔ ان کی زبان میں فارسی اور عربی کا خوبصورت امتزاج ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۳۔ عشق اور درد</h4>
+                        <p class="characteristic-text">ان کی غزلیں عشق، درد، فراق اور وصال کے مضامین میں بہترین ہیں۔ محبت کے جذبے کو انہوں نے نئے انداز میں بیان کیا۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۴۔ فنی مہارت</h4>
+                        <p class="characteristic-text">ان کی نظموں میں استعارہ، علیق، تشبیہ اور دیگر صنائع کا بہترین استعمال ہے۔ شاعری کی ہر فنی خوبی میں وہ ماہر تھے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۵۔ حکمت اور دانائی</h4>
+                        <p class="characteristic-text">ان کی شاعری میں حکمت، دانائی اور زندگی کے حقائق کی عکاسی ہے۔ وہ معاشرتی اور فکری مسائل پر روشنی ڈالتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۶۔ زبان کی خوبصورتی</h4>
+                        <p class="characteristic-text">ان کی غزلیں زبان کی خوبصورتی اور الفاظ کے صحیح انتخاب کے لیے بہت معروف ہیں۔ ہر لفظ اپنی جگہ پر درست ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۷۔ تنوع اور کثرت مضامین</h4>
+                        <p class="characteristic-text">غالب کی شاعری میں موضوعات کا بہت تنوع ہے۔ وہ ہر موضوع پر اپنی انفرادی نگاہ لاتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۸۔ خود نقد و نظر</h4>
+                        <p class="characteristic-text">غالب اپنی شاعری پر خود نقد و تبصرہ کرتے تھے۔ وہ اپنی کمزوریوں سے بھی واقف تھے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۹۔ معاصر شعور</h4>
+                        <p class="characteristic-text">ان کی شاعری میں اپنے معاصر دور کے سیاسی اور معاشرتی حالات کی عکاسی ملتی ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۰۔ روایت اور جدید کا امتزاج</h4>
+                        <p class="characteristic-text">غالب نے روایتی شاعری کو جدید انداز میں پیش کیا۔ وہ روایت کو احترام کے ساتھ نئی جہت دیتے ہیں۔</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- شاعر 4: حسرت موہانی -->
+        <section class="section" id="poet4">
+            <h2 class="poet-name">حسرت موہانی</h2>
+            
+            <div class="tabsira-main-section">
+                <h3 class="tabsira-heading">حسرت موہانی کی شاعرانہ خصوصیات</h3>
+                
+                <div class="characteristic-container">
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۔ عشق اور حسن کے مضامین</h4>
+                        <p class="characteristic-text">ان کی شاعری میں عشق، حسن اور محبت کے مضامین بہت خوبصورتی سے بیان کیے گئے ہیں۔ ہر غزل میں پریوں اور جن کا ذکر، محبوب کی حسن کی تصویریں ملتی ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۲۔ طبیعت اور فطرت</h4>
+                        <p class="characteristic-text">ان کی نظموں میں طبیعت کی خوبصورتی اور فطرت کے مناظر بہت دلکش ہیں۔ موسموں، پھولوں اور باغوں کی تصویریں ان کی شاعری میں نمایاں ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۳۔ سیاسی شعور</h4>
+                        <p class="characteristic-text">حسرت کی شاعری میں قومی شعور اور سیاسی حساسیت نمایاں ہے۔ وہ قوم اور وطن کے لیے بھی شاعری کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۴۔ روایتی اور جدید انداز</h4>
+                        <p class="characteristic-text">ان کی شاعری میں روایتی غزل کا انداز ہے لیکن اس میں جدید احساسات اور معاصر سوچ کا بھی امتزاج ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۵۔ عام لوگوں کے جذبات</h4>
+                        <p class="characteristic-text">حسرت عام لوگوں کے دل کو اپنی شاعری میں جگہ دیتے ہیں۔ ہر طبقے کے لوگوں کے احساسات ان کی شاعری میں موجود ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۶۔ خوبصورت الفاظ</h4>
+                        <p class="characteristic-text">ان کی شاعری میں الفاظ کا انتخاب بہت خوبصورت اور معنی خیز ہے۔ ہر لفظ اپنا اثر رکھتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۷۔ سادہ اور روانی زبان</h4>
+                        <p class="characteristic-text">حسرت کی زبان سادہ اور روانی ہے۔ وہ مشکل الفاظ کی بجائے عام فہم زبان استعمال کرتے ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۸۔ موسیقیت</h4>
+                        <p class="characteristic-text">ان کی شاعری میں موسیقیت اور لہجے کا خصوصی امتزاج ہے۔ غزالیں پڑھنے میں بہت دلآویز ہیں۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۹۔ گہرے احساسات</h4>
+                        <p class="characteristic-text">حسرت کی شاعری میں گہرے انسانی احساسات کی عکاسی ہے۔ درد، خوشی، امید اور مایوسی سب کچھ اظہار پاتا ہے۔</p>
+                    </div>
+
+                    <div class="characteristic-item">
+                        <h4 class="characteristic-title">۱۰۔ شاعری میں ثقافتی شعور</h4>
+                        <p class="characteristic-text">ان کی شاعری میں ثقافتی اور تہذیبی شعور موجود ہے۔ وہ روایات اور اقدار کو بھی شاعری میں جگہ دیتے ہیں۔</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let hideControlsTimeout;
+        const floatingControls = document.getElementById('floatingControls');
+        const themeSelector = document.getElementById('themeSelector');
+        const backToTop = document.getElementById('backToTop');
+
+        function showControls() {
+            floatingControls.classList.remove('hidden');
+            clearTimeout(hideControlsTimeout);
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        function showBackToTop() {
+            clearTimeout(backToTop.hideTimeout);
+            backToTop.classList.remove('hidden');
+            backToTop.hideTimeout = setTimeout(() => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        document.addEventListener('mousemove', showControls);
+        document.addEventListener('touchstart', showControls);
+        document.addEventListener('scroll', () => {
+            showControls();
+            if (window.scrollY > 300) {
+                showBackToTop();
+            }
+        });
+
+        floatingControls.addEventListener('mouseenter', () => {
+            clearTimeout(hideControlsTimeout);
+        });
+
+        floatingControls.addEventListener('mouseleave', () => {
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        });
+
+        backToTop.addEventListener('mouseenter', () => {
+            clearTimeout(backToTop.hideTimeout);
+        });
+
+        backToTop.addEventListener('mouseleave', () => {
+            showBackToTop();
+        });
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            themeSelector.classList.toggle('active');
+            if (themeSelector.classList.contains('active')) {
+                clearTimeout(hideControlsTimeout);
+            } else {
+                hideControlsTimeout = setTimeout(() => {
+                    floatingControls.classList.add('hidden');
+                }, 3000);
+            }
+        });
+
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const theme = option.dataset.theme;
+                body.setAttribute('data-theme', theme);
+                themeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                localStorage.setItem('urduNotesTheme', theme);
+                setTimeout(() => {
+                    themeSelector.classList.remove('active');
+                    hideControlsTimeout = setTimeout(() => {
+                        floatingControls.classList.add('hidden');
+                    }, 3000);
+                }, 500);
+            });
+        });
+
+        const savedTheme = localStorage.getItem('urduNotesTheme');
+        if (savedTheme) {
+            body.setAttribute('data-theme', savedTheme);
+            themeOptions.forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === savedTheme);
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+                showBackToTop();
+            } else {
+                backToTop.classList.remove('visible');
+                backToTop.classList.remove('hidden');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!floatingControls.contains(e.target)) {
+                themeSelector.classList.remove('active');
+            }
+        });
+
+        document.querySelectorAll('.jump-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        showControls();
+    </script>
+</body>
+</html>

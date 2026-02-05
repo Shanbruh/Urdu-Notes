@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظموں کے مرکزی خیال</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #e8f5e3;
+            --bg-secondary: #f0f9ed;
+            --text-primary: #1a4d2e;
+            --text-secondary: #2d6a4f;
+            --accent: #52b788;
+            --border: #95d5b2;
+            --shadow: rgba(26, 77, 46, 0.1);
+            --bismillah-bg: #d8f3dc;
+        }
+
+        [data-theme="lightblue"] {
+            --bg-primary: #e3f2fd;
+            --bg-secondary: #f1f8ff;
+            --text-primary: #0d47a1;
+            --text-secondary: #1565c0;
+            --accent: #2196f3;
+            --border: #90caf9;
+            --shadow: rgba(13, 71, 161, 0.1);
+            --bismillah-bg: #dceefb;
+        }
+
+        [data-theme="yellow"] {
+            --bg-primary: #fff9e6;
+            --bg-secondary: #fffbf0;
+            --text-primary: #7d5a00;
+            --text-secondary: #a67c00;
+            --accent: #ffc107;
+            --border: #ffe082;
+            --shadow: rgba(125, 90, 0, 0.1);
+            --bismillah-bg: #fff4d6;
+        }
+
+        [data-theme="sepia"] {
+            --bg-primary: #f4ecd8;
+            --bg-secondary: #f9f3e6;
+            --text-primary: #5d4e37;
+            --text-secondary: #8b7355;
+            --accent: #c19a6b;
+            --border: #d4af87;
+            --shadow: rgba(93, 78, 55, 0.12);
+            --bismillah-bg: #ede2ce;
+        }
+
+        [data-theme="contrast"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f8f8;
+            --text-primary: #000000;
+            --text-secondary: #1a1a1a;
+            --accent: #000000;
+            --border: #333333;
+            --shadow: rgba(0, 0, 0, 0.15);
+            --bismillah-bg: #f0f0f0;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --text-primary: #e8e8e8;
+            --text-secondary: #c8c8c8;
+            --accent: #4a9eff;
+            --border: #404040;
+            --shadow: rgba(255, 255, 255, 0.05);
+            --bismillah-bg: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Noto Nastaliq Urdu', 'Amiri', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.9;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--shadow) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, var(--shadow) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .floating-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .floating-controls.hidden {
+            opacity: 0;
+            transform: translateX(-20px);
+            pointer-events: none;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.2;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+
+        .btn:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .theme-selector {
+            margin-top: 10px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 8px 24px var(--shadow);
+            backdrop-filter: blur(10px);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+
+        .theme-selector.active {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .theme-option {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            margin: 6px 0;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            box-shadow: 0 3px 8px var(--shadow);
+        }
+
+        .theme-option:hover {
+            transform: scale(1.15) translateX(5px);
+            border-color: var(--accent);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .theme-option.active {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 3px var(--bg-primary);
+        }
+
+        .theme-greenish { background: linear-gradient(135deg, #e8f5e3, #52b788); }
+        .theme-lightblue { background: linear-gradient(135deg, #e3f2fd, #2196f3); }
+        .theme-yellow { background: linear-gradient(135deg, #fff9e6, #ffc107); }
+        .theme-sepia { background: linear-gradient(135deg, #f4ecd8, #c19a6b); }
+        .theme-contrast { background: linear-gradient(135deg, #ffffff, #333333); }
+        .theme-dark { background: linear-gradient(135deg, #1a1a1a, #4a9eff); }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            z-index: 999;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top.hidden {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .bismillah-header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: var(--bismillah-bg);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 3px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bismillah-header::before {
+            content: '✦';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite;
+        }
+
+        .bismillah-header::after {
+            content: '✦';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite reverse;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .bismillah-urdu {
+            font-family: 'Scheherazade New', 'Noto Nastaliq Urdu', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px var(--shadow);
+            letter-spacing: 2px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .main-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .main-title h1 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 6px var(--shadow);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .main-title h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .section {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: var(--accent);
+            opacity: 0.04;
+            border-radius: 0 0 0 100%;
+            transition: all 0.4s ease;
+        }
+
+        .section:hover::before {
+            width: 180px;
+            height: 180px;
+            opacity: 0.08;
+        }
+
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .nazam-title {
+            font-family: 'Scheherazade New', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            padding-bottom: 1rem;
+        }
+
+        .nazam-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .poet-intro {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .poet-intro:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .intro-label {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .intro-label::before {
+            content: '✍️';
+            font-size: 1.4rem;
+        }
+
+        .intro-content {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: var(--text-secondary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .markazi-khyal {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .markazi-khyal:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .khyal-label {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .khyal-label::before {
+            content: '💭';
+            font-size: 1.4rem;
+        }
+
+        .khyal-content {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: var(--text-secondary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .jump-menu {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 6px 20px var(--shadow);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .jump-menu h3 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+
+        .jump-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .jump-link {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            text-decoration: none;
+            border: 2px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-weight: 600;
+            font-size: 1.05rem;
+            box-shadow: 0 3px 10px var(--shadow);
+        }
+
+        .jump-link:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .bismillah-urdu {
+                font-size: 2.5rem;
+            }
+
+            .main-title h1 {
+                font-size: 2.2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .nazam-title {
+                font-size: 2rem;
+            }
+
+            .intro-label,
+            .khyal-label {
+                font-size: 1.2rem;
+            }
+
+            .intro-content,
+            .khyal-content {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            .poet-intro,
+            .markazi-khyal {
+                padding: 1.3rem;
+            }
+
+            .floating-controls {
+                top: 10px;
+                left: 10px;
+            }
+
+            .btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .theme-option {
+                width: 40px;
+                height: 40px;
+            }
+
+            .back-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .jump-link {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body data-theme="greenish">
+    <div class="floating-controls" id="floatingControls">
+        <div class="controls">
+            <button class="btn" id="themeToggle" title="تھیم منتخب کریں">🎨</button>
+        </div>
+        <div class="theme-selector" id="themeSelector">
+            <div class="theme-option theme-greenish active" data-theme="greenish"></div>
+            <div class="theme-option theme-lightblue" data-theme="lightblue"></div>
+            <div class="theme-option theme-yellow" data-theme="yellow"></div>
+            <div class="theme-option theme-sepia" data-theme="sepia"></div>
+            <div class="theme-option theme-contrast" data-theme="contrast"></div>
+            <div class="theme-option theme-dark" data-theme="dark"></div>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <div class="container">
+        <header class="bismillah-header">
+            <h1 class="bismillah-urdu">بِسْمِ اللہِ الرَّحْمٰنِ الرَّحِیْمِ</h1>
+        </header>
+
+        <div class="main-title">
+            <h1>نظموں کے مرکزی خیال</h1>
+        </div>
+
+        <nav class="jump-menu">
+            <h3>نظموں کی فہرست</h3>
+            <div class="jump-links">
+                <a href="#nazam1" class="jump-link">رہے نام اللہ کا</a>
+                <a href="#nazam2" class="jump-link">چپ کی داد</a>
+                <a href="#nazam3" class="jump-link">یا رب! چمنِ نظم کو</a>
+            </div>
+        </nav>
+
+        <!-- نظم 1 -->
+        <section class="section" id="nazam1">
+            <h2 class="nazam-title">رہے نام اللہ کا</h2>
+            
+            <div class="poet-intro">
+                <h3 class="intro-label">شاعر کا تعارف</h3>
+                <div class="intro-content">
+                    نظیر اکبر آبادی (1735ء - 1830ء) اردو شاعری کے بانیوں میں سے ایک ہیں۔ وہ عام لوگوں کی زبان میں شاعری کرتے تھے اور ان کے اشعار میں سادگی، گہری معنویت اور عوامی مسائل کا احساس ملتا ہے۔ نظیر نے اپنی شاعری کے ذریعے معاشرے کے ہر طبقے سے مخاطب ہوا۔ انہوں نے دنیوی معاملات، اخلاقی اقدار اور روحانی تعلیمات کو بہت سادہ اور دل کش انداز میں پیش کیا ہے۔
+                </div>
+            </div>
+
+            <div class="markazi-khyal">
+                <h3 class="khyal-label">مرکزی خیال</h3>
+                <div class="khyal-content">
+                    یہ نظم دنیا کی عارضی نوعیت اور موت کی حتمیت کا بیان ہے۔ نظیر کہتے ہیں کہ دنیا میں کوئی چیز مستقل نہیں ہے۔ نہ ادھر کا بادشاہ رہے گا، نہ وہاں کا فقیر۔ خوشحالی بھی آئے گی اور غربت بھی چلی جائے گی۔ اموال بھی ختم ہوں گے اور عمارتیں بھی ڈھ جائیں گی۔ سب کچھ فانی ہے۔ یہ نظم انسان کو اس بات کی یاد دلاتی ہے کہ سب کچھ ختم ہوگا، صرف اللہ کا نام باقی رہے گا۔ یہ پیغام انسان کو عارضی چیزوں سے غیر ضروری طور پر نہ لگے رہنے اور اخلاقی و روحانی اقدار کی طرف توجہ دینے کی دعوت ہے۔
+                </div>
+            </div>
+        </section>
+
+        <!-- نظم 2 -->
+        <section class="section" id="nazam2">
+            <h2 class="nazam-title">چپ کی داد</h2>
+            
+            <div class="poet-intro">
+                <h3 class="intro-label">شاعر کا تعارف</h3>
+                <div class="intro-content">
+                    مولانا الطاف حسین حالی (1837ء - 1914ء) اردو کے شاعر، نثر نگار اور مصلح ہیں۔ وہ برصغیر کے ایک اہم فکری رہنما تھے جنہوں نے مسلم معاشرے کی بہتری کے لیے اہم کردار ادا کیا۔ حالی کی شاعری میں تعلیم، اصلاح، نسائی حقوق اور معاشرتی مسائل کا گہرا احساس ملتا ہے۔ ان کی معروف تصنیفات میں مسدسِ حالی اور دیوانِ حالی شامل ہیں۔
+                </div>
+            </div>
+
+            <div class="markazi-khyal">
+                <h3 class="khyal-label">مرکزی خیال</h3>
+                <div class="khyal-content">
+                    یہ نظم اس بات کا اعتراف ہے کہ معاشرے میں عورتوں کا کردار کتنا اہم ہے۔ حالی کہتے ہیں کہ ماں، بہن اور بیٹی ہر معاشرے کی بنیاد ہیں۔ وہ گھر کی روح ہیں، خوشی کا ذریعہ ہیں، اور قوم کی عزت و ترقی کا سبب ہیں۔ نظم میں یہ پیغام ہے کہ عورتیں ملک کی بستی کو آباد رکھتی ہیں، خاندار کو سنوارتی ہیں، غموں میں تسلی دیتی ہیں اور بچوں کی پرورش کرتی ہیں۔ اگر معاشرہ تقدم کا خواہاں ہے تو عورتوں کی تعلیم، تکریم اور ان کے حقوق کا تحفظ ضروری ہے۔
+                </div>
+            </div>
+        </section>
+
+        <!-- نظم 3 -->
+        <section class="section" id="nazam3">
+            <h2 class="nazam-title">یا رب! چمنِ نظم کو گل زارِ ارم کر</h2>
+            
+            <div class="poet-intro">
+                <h3 class="intro-label">شاعر کا تعارف</h3>
+                <div class="intro-content">
+                    میر انیس (1802ء - 1874ء) اردو شاعری کے شاہ ہیں اور بہت سے اہم شاعروں میں ایک ہیں۔ وہ خاص طور پر مرثیہ گوئی میں ماہر ہیں اور ان کی شاعری میں بہت گہرا احساس اور اعلیٰ فنی معیار ملتا ہے۔ میر انیس کی نگارش میں تفصیلی بیان، عام لوگوں کی عام فہمی، اور اعلیٰ قدروں کا تحفظ نمایاں ہے۔ ان کی شاعری میں مذہبی احساس بھی قوی ہے۔
+                </div>
+            </div>
+
+            <div class="markazi-khyal">
+                <h3 class="khyal-label">مرکزی خیال</h3>
+                <div class="khyal-content">
+                    یہ نظم ایک دعا کی صورت میں ہے جس میں شاعر اللہ سے التماس کرتا ہے کہ اپنی شاعری کو خوبصورتی، معنویت اور اہمیت سے نوازے۔ میر انیس اپنے اندر کے شاعرانہ احساسات اور فکری وسائل کو بڑھانے کے لیے اللہ سے مدد مانگتے ہیں۔ نظم میں شاعری کے فن کے لیے گہری احترام، صبر و ریاضت کا پیغام، اور اللہ کے فضل پر توکل کا جذبہ ہے۔ شاعر کہتے ہیں کہ شاعری ایک نہایت معتبر فن ہے جس کے لیے بہت محنت، ذہن کی پاکیزگی اور خدا کے فضل کی ضرورت ہے۔
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let hideControlsTimeout;
+        const floatingControls = document.getElementById('floatingControls');
+        const themeSelector = document.getElementById('themeSelector');
+        const backToTop = document.getElementById('backToTop');
+
+        function showControls() {
+            floatingControls.classList.remove('hidden');
+            clearTimeout(hideControlsTimeout);
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        function showBackToTop() {
+            clearTimeout(backToTop.hideTimeout);
+            backToTop.classList.remove('hidden');
+            backToTop.hideTimeout = setTimeout(() => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        document.addEventListener('mousemove', showControls);
+        document.addEventListener('touchstart', showControls);
+        document.addEventListener('scroll', () => {
+            showControls();
+            if (window.scrollY > 300) {
+                showBackToTop();
+            }
+        });
+
+        floatingControls.addEventListener('mouseenter', () => {
+            clearTimeout(hideControlsTimeout);
+        });
+
+        floatingControls.addEventListener('mouseleave', () => {
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        });
+
+        backToTop.addEventListener('mouseenter', () => {
+            clearTimeout(backToTop.hideTimeout);
+        });
+
+        backToTop.addEventListener('mouseleave', () => {
+            showBackToTop();
+        });
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            themeSelector.classList.toggle('active');
+            if (themeSelector.classList.contains('active')) {
+                clearTimeout(hideControlsTimeout);
+            } else {
+                hideControlsTimeout = setTimeout(() => {
+                    floatingControls.classList.add('hidden');
+                }, 3000);
+            }
+        });
+
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const theme = option.dataset.theme;
+                body.setAttribute('data-theme', theme);
+                themeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                localStorage.setItem('urduNotesTheme', theme);
+                setTimeout(() => {
+                    themeSelector.classList.remove('active');
+                    hideControlsTimeout = setTimeout(() => {
+                        floatingControls.classList.add('hidden');
+                    }, 3000);
+                }, 500);
+            });
+        });
+
+        const savedTheme = localStorage.getItem('urduNotesTheme');
+        if (savedTheme) {
+            body.setAttribute('data-theme', savedTheme);
+            themeOptions.forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === savedTheme);
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+                showBackToTop();
+            } else {
+                backToTop.classList.remove('visible');
+                backToTop.classList.remove('hidden');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!floatingControls.contains(e.target)) {
+                themeSelector.classList.remove('active');
+            }
+        });
+
+        document.querySelectorAll('.jump-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        showControls();
+    </script>
+</body>
+</html>
