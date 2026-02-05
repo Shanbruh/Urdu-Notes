@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اقتباس کی تشریح</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #e8f5e3;
+            --bg-secondary: #f0f9ed;
+            --text-primary: #1a4d2e;
+            --text-secondary: #2d6a4f;
+            --accent: #52b788;
+            --border: #95d5b2;
+            --shadow: rgba(26, 77, 46, 0.1);
+            --bismillah-bg: #d8f3dc;
+        }
+
+        [data-theme="lightblue"] {
+            --bg-primary: #e3f2fd;
+            --bg-secondary: #f1f8ff;
+            --text-primary: #0d47a1;
+            --text-secondary: #1565c0;
+            --accent: #2196f3;
+            --border: #90caf9;
+            --shadow: rgba(13, 71, 161, 0.1);
+            --bismillah-bg: #dceefb;
+        }
+
+        [data-theme="yellow"] {
+            --bg-primary: #fff9e6;
+            --bg-secondary: #fffbf0;
+            --text-primary: #7d5a00;
+            --text-secondary: #a67c00;
+            --accent: #ffc107;
+            --border: #ffe082;
+            --shadow: rgba(125, 90, 0, 0.1);
+            --bismillah-bg: #fff4d6;
+        }
+
+        [data-theme="sepia"] {
+            --bg-primary: #f4ecd8;
+            --bg-secondary: #f9f3e6;
+            --text-primary: #5d4e37;
+            --text-secondary: #8b7355;
+            --accent: #c19a6b;
+            --border: #d4af87;
+            --shadow: rgba(93, 78, 55, 0.12);
+            --bismillah-bg: #ede2ce;
+        }
+
+        [data-theme="contrast"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f8f8;
+            --text-primary: #000000;
+            --text-secondary: #1a1a1a;
+            --accent: #000000;
+            --border: #333333;
+            --shadow: rgba(0, 0, 0, 0.15);
+            --bismillah-bg: #f0f0f0;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --text-primary: #e8e8e8;
+            --text-secondary: #c8c8c8;
+            --accent: #4a9eff;
+            --border: #404040;
+            --shadow: rgba(255, 255, 255, 0.05);
+            --bismillah-bg: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Noto Nastaliq Urdu', 'Amiri', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.9;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--shadow) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, var(--shadow) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .floating-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .floating-controls.hidden {
+            opacity: 0;
+            transform: translateX(-20px);
+            pointer-events: none;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.2;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+
+        .btn:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .theme-selector {
+            margin-top: 10px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 8px 24px var(--shadow);
+            backdrop-filter: blur(10px);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+
+        .theme-selector.active {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .theme-option {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            margin: 6px 0;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            box-shadow: 0 3px 8px var(--shadow);
+        }
+
+        .theme-option:hover {
+            transform: scale(1.15) translateX(5px);
+            border-color: var(--accent);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .theme-option.active {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 3px var(--bg-primary);
+        }
+
+        .theme-greenish { background: linear-gradient(135deg, #e8f5e3, #52b788); }
+        .theme-lightblue { background: linear-gradient(135deg, #e3f2fd, #2196f3); }
+        .theme-yellow { background: linear-gradient(135deg, #fff9e6, #ffc107); }
+        .theme-sepia { background: linear-gradient(135deg, #f4ecd8, #c19a6b); }
+        .theme-contrast { background: linear-gradient(135deg, #ffffff, #333333); }
+        .theme-dark { background: linear-gradient(135deg, #1a1a1a, #4a9eff); }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px var(--shadow);
+            z-index: 999;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top.hidden {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .bismillah-header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: var(--bismillah-bg);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 3px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bismillah-header::before {
+            content: '✦';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite;
+        }
+
+        .bismillah-header::after {
+            content: '✦';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: rotate 20s linear infinite reverse;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .bismillah-urdu {
+            font-family: 'Scheherazade New', 'Noto Nastaliq Urdu', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px var(--shadow);
+            letter-spacing: 2px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .main-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .main-title h1 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 6px var(--shadow);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .main-title h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .section {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: var(--accent);
+            opacity: 0.04;
+            border-radius: 0 0 0 100%;
+            transition: all 0.4s ease;
+        }
+
+        .section:hover::before {
+            width: 180px;
+            height: 180px;
+            opacity: 0.08;
+        }
+
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .sabaq-title {
+            font-family: 'Scheherazade New', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            padding-bottom: 1rem;
+        }
+
+        .sabaq-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .author-reference {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .author-reference:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .reference-label {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reference-label::before {
+            content: '✍️';
+            font-size: 1.4rem;
+        }
+
+        .reference-content {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: var(--text-secondary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .iqtibas-container {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .iqtibas-container:hover {
+            border-color: var(--accent);
+            box-shadow: 0 6px 16px var(--shadow);
+            transform: translateX(-5px);
+        }
+
+        .iqtibas-container::before {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 0;
+            background: var(--accent);
+            border-radius: 3px 0 0 3px;
+            transition: height 0.3s ease;
+        }
+
+        .iqtibas-container:hover::before {
+            height: 80%;
+        }
+
+        .iqtibas-number {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .iqtibas-number::before {
+            content: '📑';
+            font-size: 1.2rem;
+        }
+
+        .iqtibas-text {
+            font-family: 'Noto Nastaliq Urdu', 'Scheherazade New', serif;
+            font-size: 1.8rem;
+            line-height: 2.5;
+            color: var(--text-primary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border: 2px dashed var(--border);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .tashreeh-label {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tashreeh-label::before {
+            content: '💡';
+            font-size: 1.2rem;
+        }
+
+        .tashreeh-content {
+            font-size: 1.15rem;
+            line-height: 2.2;
+            color: var(--text-secondary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .jump-menu {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 6px 20px var(--shadow);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .jump-menu h3 {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+
+        .jump-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .jump-link {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            text-decoration: none;
+            border: 2px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-weight: 600;
+            font-size: 1.05rem;
+            box-shadow: 0 3px 10px var(--shadow);
+        }
+
+        .jump-link:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .bismillah-urdu {
+                font-size: 2.5rem;
+            }
+
+            .main-title h1 {
+                font-size: 2.2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .sabaq-title {
+                font-size: 2rem;
+            }
+
+            .iqtibas-text {
+                font-size: 1.5rem;
+                padding: 1rem;
+            }
+
+            .reference-label,
+            .tashreeh-label,
+            .iqtibas-number {
+                font-size: 1.2rem;
+            }
+
+            .reference-content,
+            .tashreeh-content {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            .iqtibas-container {
+                padding: 1.5rem;
+            }
+
+            .author-reference {
+                padding: 1.3rem;
+            }
+
+            .floating-controls {
+                top: 10px;
+                left: 10px;
+            }
+
+            .btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .theme-option {
+                width: 40px;
+                height: 40px;
+            }
+
+            .back-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .jump-link {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body data-theme="greenish">
+    <div class="floating-controls" id="floatingControls">
+        <div class="controls">
+            <button class="btn" id="themeToggle" title="تھیم منتخب کریں">🎨</button>
+        </div>
+        <div class="theme-selector" id="themeSelector">
+            <div class="theme-option theme-greenish active" data-theme="greenish" title="سبز"></div>
+            <div class="theme-option theme-lightblue" data-theme="lightblue" title="نیلا"></div>
+            <div class="theme-option theme-yellow" data-theme="yellow" title="پیلا"></div>
+            <div class="theme-option theme-sepia" data-theme="sepia" title="سیپیا"></div>
+            <div class="theme-option theme-contrast" data-theme="contrast" title="کونٹراسٹ"></div>
+            <div class="theme-option theme-dark" data-theme="dark" title="سیاہ"></div>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTop" title="واپس اوپر">↑</button>
+
+    <div class="container">
+        <header class="bismillah-header">
+            <h1 class="bismillah-urdu">بِسْمِ اللہِ الرَّحْمٰنِ الرَّحِیْمِ</h1>
+        </header>
+
+        <div class="main-title">
+            <h1>📑 اقتباس کی تشریح</h1>
+        </div>
+
+        <nav class="jump-menu">
+            <h3>📚 اسباق کی فہرست</h3>
+            <div class="jump-links">
+                <a href="#sabaq1" class="jump-link">سبق ۱</a>
+                <a href="#sabaq2" class="jump-link">سبق ۲</a>
+                <a href="#sabaq3" class="jump-link">سبق ۳</a>
+                <a href="#sabaq4" class="jump-link">سبق ۴</a>
+                <a href="#sabaq5" class="jump-link">سبق ۵</a>
+            </div>
+        </nav>
+
+        <!-- سبق ۱ -->
+        <section class="section sabaq-section" id="sabaq1">
+            <h2 class="sabaq-title">سبق ۱</h2>
+            
+            <div class="author-reference">
+                <h3 class="reference-label">مصنف کا حوالہ</h3>
+                <div class="reference-content">
+                    یہاں مصنف کا نام، مختصر تعارف، اور اس سبق کا حوالہ شامل کریں
+                </div>
+            </div>
+
+            <div class="iqtibas-container">
+                <div class="iqtibas-number">اقتباس ۱</div>
+                <div class="iqtibas-text">
+                    یہاں پہلا اقتباس لکھیں
+                </div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">
+                    یہاں اس اقتباس کی تفصیلی تشریح لکھیں
+                </div>
+            </div>
+
+            <div class="iqtibas-container">
+                <div class="iqtibas-number">اقتباس ۲</div>
+                <div class="iqtibas-text">
+                    یہاں دوسرا اقتباس لکھیں
+                </div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">
+                    یہاں اس اقتباس کی تفصیلی تشریح لکھیں
+                </div>
+            </div>
+
+            <div class="iqtibas-container">
+                <div class="iqtibas-number">اقتباس ۳</div>
+                <div class="iqtibas-text">
+                    یہاں تیسرا اقتباس لکھیں
+                </div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">
+                    یہاں اس اقتباس کی تفصیلی تشریح لکھیں
+                </div>
+            </div>
+        </section>
+
+        <!-- سبق ۲ -->
+        <section class="section sabaq-section" id="sabaq2">
+            <h2 class="sabaq-title">سبق ۲</h2>
+            
+            <div class="author-reference">
+                <h3 class="reference-label">مصنف کا حوالہ</h3>
+                <div class="reference-content">
+                    یہاں مصنف کا نام، مختصر تعارف، اور اس سبق کا حوالہ شامل کریں
+                </div>
+            </div>
+
+            <div class="iqtibas-container">
+                <div class="iqtibas-number">اقتباس ۱</div>
+                <div class="iqtibas-text">
+                    یہاں پہلا اقتباس لکھیں
+                </div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">
+                    یہاں اس اقتباس کی تفصیلی تشریح لکھیں
+                </div>
+            </div>
+
+            <div class="iqtibas-container">
+                <div class="iqtibas-number">اقتباس ۲</div>
+                <div class="iqtibas-text">
+                    یہاں دوسرا اقتباس لکھیں
+                </div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">
+                    یہاں اس اقتباس کی تفصیلی تشریح لکھیں
+                </div>
+            </div>
+        </section>
+
+        <!-- سبق ۳ -->
+        <section class="section sabaq-section" id="sabaq3">
+            <h2 class="sabaq-title">سبق ۳</h2>
+            
+            <div class="author-reference">
+                <h3 class="reference-label">مصنف کا حوالہ</h3>
+                <div class="reference-content">
+                    یہاں مصنف کا نام، مختصر تعارف، اور اس سبق کا حوالہ شامل کریں
+                </div>
+            </div>
+
+            <div class="iqtibas-container">
+                <div class="iqtibas-number">اقتباس ۱</div>
+                <div class="iqtibas-text">
+                    یہاں پہلا اقتباس لکھیں
+                </div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">
+                    یہاں اس اقتباس کی تفصیلی تشریح لکھیں
+                </div>
+            </div>
+        </section>
+
+        <!-- سبق ۴ -->
+        <section class="section sabaq-section" id="sabaq4">
+            <h2 class="sabaq-title">سبق ۴</h2>
+            
+            <div class="author-reference">
+                <h3 class="reference-label">مصنف کا حوالہ</h3>
+                <div class="reference-content">
+                    یہاں مصنف کا نام، مختصر تعارف، اور اس سبق کا حوالہ شامل کریں
+                </div>
+            </div>
+
+            <div class="iqtibas-container">
+                <div class="iqtibas-number">اقتباس ۱</div>
+                <div class="iqtibas-text">
+                    یہاں پہلا اقتباس لکھیں
+                </div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">
+                    یہاں اس اقتباس کی تفصیلی تشریح لکھیں
+                </div>
+            </div>
+        </section>
+
+        <!-- سبق ۵ -->
+        <section class="section sabaq-section" id="sabaq5">
+            <h2 class="sabaq-title">سبق ۵</h2>
+            
+            <div class="author-reference">
+                <h3 class="reference-label">مصنف کا حوالہ</h3>
+                <div class="reference-content">
+                    یہاں مصنف کا نام، مختصر تعارف، اور اس سبق کا حوالہ شامل کریں
+                </div>
+            </div>
+
+            <div class="iqtibas-container">
+                <div class="iqtibas-number">اقتباس ۱</div>
+                <div class="iqtibas-text">
+                    یہاں پہلا اقتباس لکھیں
+                </div>
+                <div class="tashreeh-label">تشریح</div>
+                <div class="tashreeh-content">
+                    یہاں اس اقتباس کی تفصیلی تشریح لکھیں
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let hideControlsTimeout;
+        const floatingControls = document.getElementById('floatingControls');
+        const themeSelector = document.getElementById('themeSelector');
+        const backToTop = document.getElementById('backToTop');
+
+        function showControls() {
+            floatingControls.classList.remove('hidden');
+            clearTimeout(hideControlsTimeout);
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        function showBackToTop() {
+            clearTimeout(backToTop.hideTimeout);
+            backToTop.classList.remove('hidden');
+            backToTop.hideTimeout = setTimeout(() => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        document.addEventListener('mousemove', showControls);
+        document.addEventListener('touchstart', showControls);
+        document.addEventListener('scroll', () => {
+            showControls();
+            if (window.scrollY > 300) {
+                showBackToTop();
+            }
+        });
+
+        floatingControls.addEventListener('mouseenter', () => {
+            clearTimeout(hideControlsTimeout);
+        });
+
+        floatingControls.addEventListener('mouseleave', () => {
+            hideControlsTimeout = setTimeout(() => {
+                if (!themeSelector.classList.contains('active')) {
+                    floatingControls.classList.add('hidden');
+                }
+            }, 3000);
+        });
+
+        backToTop.addEventListener('mouseenter', () => {
+            clearTimeout(backToTop.hideTimeout);
+        });
+
+        backToTop.addEventListener('mouseleave', () => {
+            showBackToTop();
+        });
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            themeSelector.classList.toggle('active');
+            if (themeSelector.classList.contains('active')) {
+                clearTimeout(hideControlsTimeout);
+            } else {
+                hideControlsTimeout = setTimeout(() => {
+                    floatingControls.classList.add('hidden');
+                }, 3000);
+            }
+        });
+
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const theme = option.dataset.theme;
+                body.setAttribute('data-theme', theme);
+                themeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                localStorage.setItem('urduNotesTheme', theme);
+                setTimeout(() => {
+                    themeSelector.classList.remove('active');
+                    hideControlsTimeout = setTimeout(() => {
+                        floatingControls.classList.add('hidden');
+                    }, 3000);
+                }, 500);
+            });
+        });
+
+        const savedTheme = localStorage.getItem('urduNotesTheme');
+        if (savedTheme) {
+            body.setAttribute('data-theme', savedTheme);
+            themeOptions.forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.theme === savedTheme);
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+                showBackToTop();
+            } else {
+                backToTop.classList.remove('visible');
+                backToTop.classList.remove('hidden');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!floatingControls.contains(e.target)) {
+                themeSelector.classList.remove('active');
+            }
+        });
+
+        document.querySelectorAll('.jump-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        showControls();
+    </script>
+</body>
+</html>
