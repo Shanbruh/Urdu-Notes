@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#52b788" id="themeColorMeta">
     <title>شاعروں پر تبصرہ</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -95,7 +96,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
+            background:
                 radial-gradient(circle at 20% 30%, var(--shadow) 0%, transparent 50%),
                 radial-gradient(circle at 80% 70%, var(--shadow) 0%, transparent 50%);
             pointer-events: none;
@@ -776,10 +777,10 @@
         <!-- شاعر 1: نظیر اکبر آبادی -->
         <section class="section" id="poet1">
             <h2 class="poet-name">نظیر اکبر آبادی</h2>
-            
+
             <div class="tabsira-main-section">
                 <h3 class="tabsira-heading">نظیر اکبر آبادی کی شاعرانہ خصوصیات</h3>
-                
+
                 <div class="characteristic-container">
                     <div class="characteristic-item">
                         <h4 class="characteristic-title">۱۔ سادگی اور فصاحت</h4>
@@ -837,10 +838,10 @@
         <!-- شاعر 2: خواجہ میر درد -->
         <section class="section" id="poet2">
             <h2 class="poet-name">خواجہ میر درد</h2>
-            
+
             <div class="tabsira-main-section">
                 <h3 class="tabsira-heading">خواجہ میر درد کی شاعرانہ خصوصیات</h3>
-                
+
                 <div class="characteristic-container">
                     <div class="characteristic-item">
                         <h4 class="characteristic-title">۱۔ روحانی مضامین</h4>
@@ -864,7 +865,7 @@
 
                     <div class="characteristic-item">
                         <h4 class="characteristic-title">۵۔ موسیقیت اور لہجہ</h4>
-                        <p class="characteristic-text">ان کی شاعری میں لہجے کی موسیقیت اور الفاظ کا انتخاب بہت خوبصورت ہے، جو قاری کے دل کو چھوتا ہے۔</p>
+                        <p class="characteristic-text">ان کی شاعری میں لہجے کی موسیقی اور الفاظ کا انتخاب بہت خوبصورت ہے، جو قاری کے دل کو چھوتا ہے۔</p>
                     </div>
 
                     <div class="characteristic-item">
@@ -898,10 +899,10 @@
         <!-- شاعر 3: میرزا غالب -->
         <section class="section" id="poet3">
             <h2 class="poet-name">میرزا غالب</h2>
-            
+
             <div class="tabsira-main-section">
                 <h3 class="tabsira-heading">میرزا غالب کی شاعرانہ خصوصیات</h3>
-                
+
                 <div class="characteristic-container">
                     <div class="characteristic-item">
                         <h4 class="characteristic-title">۱۔ فکری گہرائی</h4>
@@ -959,10 +960,10 @@
         <!-- شاعر 4: حسرت موہانی -->
         <section class="section" id="poet4">
             <h2 class="poet-name">حسرت موہانی</h2>
-            
+
             <div class="tabsira-main-section">
                 <h3 class="tabsira-heading">حسرت موہانی کی شاعرانہ خصوصیات</h3>
-                
+
                 <div class="characteristic-container">
                     <div class="characteristic-item">
                         <h4 class="characteristic-title">۱۔ عشق اور حسن کے مضامین</h4>
@@ -1023,6 +1024,32 @@
         const floatingControls = document.getElementById('floatingControls');
         const themeSelector = document.getElementById('themeSelector');
         const backToTop = document.getElementById('backToTop');
+        const themeColorMeta = document.getElementById('themeColorMeta');
+
+        function updateThemeColor() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            let themeColor;
+            switch(currentTheme) {
+                case 'lightblue':
+                    themeColor = '#2196f3';
+                    break;
+                case 'yellow':
+                    themeColor = '#ffc107';
+                    break;
+                case 'sepia':
+                    themeColor = '#c19a6b';
+                    break;
+                case 'contrast':
+                    themeColor = '#000000';
+                    break;
+                case 'dark':
+                    themeColor = '#1a1a1a';
+                    break;
+                default: // greenish
+                    themeColor = '#52b788';
+            }
+            themeColorMeta.setAttribute('content', themeColor);
+        }
 
         function showControls() {
             floatingControls.classList.remove('hidden');
@@ -1095,6 +1122,7 @@
                 themeOptions.forEach(opt => opt.classList.remove('active'));
                 option.classList.add('active');
                 localStorage.setItem('urduNotesTheme', theme);
+                updateThemeColor();
                 setTimeout(() => {
                     themeSelector.classList.remove('active');
                     hideControlsTimeout = setTimeout(() => {
@@ -1110,6 +1138,7 @@
             themeOptions.forEach(opt => {
                 opt.classList.toggle('active', opt.dataset.theme === savedTheme);
             });
+            updateThemeColor();
         }
 
         window.addEventListener('scroll', () => {
