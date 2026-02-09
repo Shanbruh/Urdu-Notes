@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#52b788" id="themeColorMeta">
     <title>نظموں کے مرکزی خیال</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -746,6 +747,32 @@
         const floatingControls = document.getElementById('floatingControls');
         const themeSelector = document.getElementById('themeSelector');
         const backToTop = document.getElementById('backToTop');
+        const themeColorMeta = document.getElementById('themeColorMeta');
+
+        function updateThemeColor() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            let themeColor;
+            switch(currentTheme) {
+                case 'lightblue':
+                    themeColor = '#2196f3';
+                    break;
+                case 'yellow':
+                    themeColor = '#ffc107';
+                    break;
+                case 'sepia':
+                    themeColor = '#c19a6b';
+                    break;
+                case 'contrast':
+                    themeColor = '#000000';
+                    break;
+                case 'dark':
+                    themeColor = '#1a1a1a';
+                    break;
+                default: // greenish
+                    themeColor = '#52b788';
+            }
+            themeColorMeta.setAttribute('content', themeColor);
+        }
 
         function showControls() {
             floatingControls.classList.remove('hidden');
@@ -818,6 +845,7 @@
                 themeOptions.forEach(opt => opt.classList.remove('active'));
                 option.classList.add('active');
                 localStorage.setItem('urduNotesTheme', theme);
+                updateThemeColor();
                 setTimeout(() => {
                     themeSelector.classList.remove('active');
                     hideControlsTimeout = setTimeout(() => {
@@ -833,6 +861,7 @@
             themeOptions.forEach(opt => {
                 opt.classList.toggle('active', opt.dataset.theme === savedTheme);
             });
+            updateThemeColor();
         }
 
         window.addEventListener('scroll', () => {
