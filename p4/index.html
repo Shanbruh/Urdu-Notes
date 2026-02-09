@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#52b788" id="themeColorMeta">
     <title>سوال و جواب</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -95,7 +96,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
+            background:
                 radial-gradient(circle at 20% 30%, var(--shadow) 0%, transparent 50%),
                 radial-gradient(circle at 80% 70%, var(--shadow) 0%, transparent 50%);
             pointer-events: none;
@@ -926,9 +927,7 @@
                 <div class="question-number">سوال ۲</div>
                 <div class="question-text">لڑائی میں الجھنے اور الجھانے میں کیا فرق ہے؟</div>
                 <div class="answer-label">جواب</div>
-                <div class="question-text">اس سوال کا جواب متن میں مختلف انداز میں بیان ہوا ہے۔ الجھنے سے مراد خود لڑائی میں شامل ہونا ہے جبکہ الجھانے سے مراد دوسروں کو لڑائی میں ڈالنا ہے۔ مصنف نے اشتعال بہانے اور اس کے طریقوں پر گفتگو کی ہے۔</div>
-                <div class="answer-label">جواب</div>
-                <div class="answer-content">الجھنے سے مراد خود لڑائی میں شامل ہونا اور الجھانے سے مراد دوسروں کو لڑائی میں ڈالنا ہے۔ اشتعال بہانے والے لوگ محدود فائدے کے لیے دوسروں کو لڑائی میں الجھاتے ہیں لیکن خود محفوظ رہتے ہیں۔ یہ ایک نقصان دہ رویہ ہے جو معاشرے میں تقسیم اور نفاق پیدا کرتا ہے۔</div>
+                <div class="answer-content">الجھنے سے مراد خود لڑائی میں شامل ہونا ہے جبکہ الجھانے سے مراد دوسروں کو لڑائی میں ڈالنا ہے۔ اشتعال بہانے والے لوگ محدود فائدے کے لیے دوسروں کو لڑائی میں ڈالتے ہیں لیکن خود محفوظ رہتے ہیں۔ یہ ایک نقصان دہ رویہ ہے جو معاشرے میں تقسیم اور نفاق پیدا کرتا ہے۔</div>
             </div>
 
             <div class="qa-container">
@@ -985,6 +984,32 @@
         const floatingControls = document.getElementById('floatingControls');
         const themeSelector = document.getElementById('themeSelector');
         const backToTop = document.getElementById('backToTop');
+        const themeColorMeta = document.getElementById('themeColorMeta');
+
+        function updateThemeColor() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            let themeColor;
+            switch(currentTheme) {
+                case 'lightblue':
+                    themeColor = '#2196f3';
+                    break;
+                case 'yellow':
+                    themeColor = '#ffc107';
+                    break;
+                case 'sepia':
+                    themeColor = '#c19a6b';
+                    break;
+                case 'contrast':
+                    themeColor = '#000000';
+                    break;
+                case 'dark':
+                    themeColor = '#1a1a1a';
+                    break;
+                default: // greenish
+                    themeColor = '#52b788';
+            }
+            themeColorMeta.setAttribute('content', themeColor);
+        }
 
         function showControls() {
             floatingControls.classList.remove('hidden');
@@ -1057,6 +1082,7 @@
                 themeOptions.forEach(opt => opt.classList.remove('active'));
                 option.classList.add('active');
                 localStorage.setItem('urduNotesTheme', theme);
+                updateThemeColor();
                 setTimeout(() => {
                     themeSelector.classList.remove('active');
                     hideControlsTimeout = setTimeout(() => {
@@ -1072,6 +1098,7 @@
             themeOptions.forEach(opt => {
                 opt.classList.toggle('active', opt.dataset.theme === savedTheme);
             });
+            updateThemeColor();
         }
 
         window.addEventListener('scroll', () => {
