@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="theme-color-meta" name="theme-color" content="#e8f5e3">
     <title>نثر نگاروں پر تبصرہ</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -985,6 +986,7 @@
             option.addEventListener('click', () => {
                 const theme = option.dataset.theme;
                 body.setAttribute('data-theme', theme);
+                 updateBrowserThemeColor(); // ADD THIS LINE
                 themeOptions.forEach(opt => opt.classList.remove('active'));
                 option.classList.add('active');
                 localStorage.setItem('urduNotesTheme', theme);
@@ -1043,6 +1045,18 @@
         });
 
         showControls();
+    </script>
+    function updateBrowserThemeColor() {
+    const bgColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--bg-primary')
+        .trim();
+
+    const metaTheme = document.getElementById('theme-color-meta');
+    if (metaTheme && bgColor) {
+        metaTheme.setAttribute('content', bgColor);
+    }
+}
+    updateBrowserThemeColor();
     </script>
 </body>
 </html>
