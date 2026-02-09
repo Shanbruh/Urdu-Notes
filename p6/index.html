@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta id="theme-color-meta" name="theme-color" content="#e8f5e3">
+    <meta name="theme-color" content="#e8f5e3" id="themeColorMeta">
     <title>نثر نگاروں پر تبصرہ</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -96,7 +96,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
+            background:
                 radial-gradient(circle at 20% 30%, var(--shadow) 0%, transparent 50%),
                 radial-gradient(circle at 80% 70%, var(--shadow) 0%, transparent 50%);
             pointer-events: none;
@@ -670,10 +670,10 @@
         <!-- نثر نگار 1: سر سید احمد خان -->
         <section class="section" id="writer1">
             <h2 class="writer-name">سر سید احمد خان</h2>
-            
+
             <div class="tabsira-main-section">
                 <h3 class="tabsira-heading">سر سید احمد خان کی نثر نگاری کی خصوصیات</h3>
-                
+
                 <div class="characteristic-container">
                     <div class="characteristic-item">
                         <h4 class="characteristic-title">۱۔ سادگی اور روانی</h4>
@@ -731,10 +731,10 @@
         <!-- نثر نگار 2: خواجہ الطاف حسین حالی -->
         <section class="section" id="writer2">
             <h2 class="writer-name">خواجہ الطاف حسین حالی</h2>
-            
+
             <div class="tabsira-main-section">
                 <h3 class="tabsira-heading">خواجہ الطاف حسین حالی کی نثر نگاری کی خصوصیات</h3>
-                
+
                 <div class="characteristic-container">
                     <div class="characteristic-item">
                         <h4 class="characteristic-title">۱۔ عاطفی اور دلکش انداز</h4>
@@ -792,10 +792,10 @@
         <!-- نثر نگار 3: خواجہ حسن نظامی -->
         <section class="section" id="writer3">
             <h2 class="writer-name">خواجہ حسن نظامی</h2>
-            
+
             <div class="tabsira-main-section">
                 <h3 class="tabsira-heading">خواجہ حسن نظامی کی نثر نگاری کی خصوصیات</h3>
-                
+
                 <div class="characteristic-container">
                     <div class="characteristic-item">
                         <h4 class="characteristic-title">۱۔ دینی اور اسلامی مضامین</h4>
@@ -853,10 +853,10 @@
         <!-- نثر نگار 4: منشی پریم چند -->
         <section class="section" id="writer4">
             <h2 class="writer-name">منشی پریم چند</h2>
-            
+
             <div class="tabsira-main-section">
                 <h3 class="tabsira-heading">منشی پریم چند کی نثر نگاری کی خصوصیات</h3>
-                
+
                 <div class="characteristic-container">
                     <div class="characteristic-item">
                         <h4 class="characteristic-title">۱۔ حقیقت پسندی اور سماجی تنقید</h4>
@@ -917,6 +917,32 @@
         const floatingControls = document.getElementById('floatingControls');
         const themeSelector = document.getElementById('themeSelector');
         const backToTop = document.getElementById('backToTop');
+        const themeColorMeta = document.getElementById('themeColorMeta');
+
+        function updateThemeColor() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            let themeColor;
+            switch(currentTheme) {
+                case 'lightblue':
+                    themeColor = '#e3f2fd';
+                    break;
+                case 'yellow':
+                    themeColor = '#fff9e6';
+                    break;
+                case 'sepia':
+                    themeColor = '#f4ecd8';
+                    break;
+                case 'contrast':
+                    themeColor = '#ffffff';
+                    break;
+                case 'dark':
+                    themeColor = '#1a1a1a';
+                    break;
+                default:
+                    themeColor = '#e8f5e3';
+            }
+            themeColorMeta.setAttribute('content', themeColor);
+        }
 
         function showControls() {
             floatingControls.classList.remove('hidden');
@@ -986,10 +1012,10 @@
             option.addEventListener('click', () => {
                 const theme = option.dataset.theme;
                 body.setAttribute('data-theme', theme);
-                 updateBrowserThemeColor(); // ADD THIS LINE
                 themeOptions.forEach(opt => opt.classList.remove('active'));
                 option.classList.add('active');
                 localStorage.setItem('urduNotesTheme', theme);
+                updateThemeColor();
                 setTimeout(() => {
                     themeSelector.classList.remove('active');
                     hideControlsTimeout = setTimeout(() => {
@@ -1005,6 +1031,7 @@
             themeOptions.forEach(opt => {
                 opt.classList.toggle('active', opt.dataset.theme === savedTheme);
             });
+            updateThemeColor();
         }
 
         window.addEventListener('scroll', () => {
@@ -1045,17 +1072,6 @@
         });
 
         showControls();
-    function updateBrowserThemeColor() {
-    const bgColor = getComputedStyle(document.documentElement)
-        .getPropertyValue('--bg-primary')
-        .trim();
-
-    const metaTheme = document.getElementById('theme-color-meta');
-    if (metaTheme && bgColor) {
-        metaTheme.setAttribute('content', bgColor);
-    }
-}
-    updateBrowserThemeColor();
     </script>
 </body>
 </html>
