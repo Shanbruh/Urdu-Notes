@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e8f5e3" id="themeColorMeta">
     <title>اشعار کی تشریح</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -788,14 +789,15 @@
                 <div class="reference-sub-section">
                     <h4 class="reference-label">شاعر کا حوالہ</h4>
                     <div class="reference-content">یہ غزلیات خواجہ میر درد کی ہیں۔</div>
+                </div>
             </div>
-</div>
+
             <!-- Ghazal 1 -->
             <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--accent);">غزل - 1</h3>
 
             <div class="sher-container">
                 <div class="sher-number">شعر 1</div>
-                <div class="sher-text">مقدور ہمیں کب ترے وصفوں کے رقم کا<br>حقّاً کہ خداوند ہے تو لوح و قلم کا</div>
+                <div class="sher-text">مقدور ہمیں کب ترے وصفوں کے رقم کا<br>حقاں کہ خداوند ہے تو لوح و قلم کا</div>
                 <div class="tashreeh-label">تشریح</div>
                 <div class="tashreeh-content">اس شعر میں شاعر اللہ تعالیٰ کی حمد و ثنا بیان کرتے ہوئے اپنے عجز کا اظہار کر رہا ہے۔ وہ کہتا ہے کہ ہم انسانوں میں اتنی طاقت اور صلاحیت کہاں کہ تیری بے شمار صفات کو قلمبند کر سکیں۔ حقیقت یہ ہے کہ تو ہی اس کائنات کا خالق و مالک ہے اور لوح و قلم بھی تیرے ہی تابع ہیں۔ یہاں شاعر نے انسانی محدودیت اور خدا کی لامحدود عظمت کا موازنہ پیش کیا ہے۔</div>
             </div>
@@ -876,8 +878,9 @@
                 <div class="reference-sub-section">
                     <h4 class="reference-label">شاعر کا حوالہ</h4>
                     <div class="reference-content">یہ کلام میر تقی میر کا ہے۔</div>
+                </div>
             </div>
-</div>
+
             <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--accent);">غزل - 1</h3>
 
             <div class="sher-container">
@@ -962,8 +965,9 @@
                 <div class="reference-sub-section">
                     <h4 class="reference-label">شاعر کا حوالہ</h4>
                     <div class="reference-content">یہ کلام رئیس المتغزلین حسرت موہانی کا ہے۔</div>
+                </div>
             </div>
-</div>
+
             <div class="sher-container">
                 <div class="sher-number">شعر 1</div>
                 <div class="sher-text">اپنا سا شوق اوروں میں لائیں کہاں سے ہم<br>گھبرا گئے ہیں بے دلی ہم رہاں سے ہم</div>
@@ -1007,6 +1011,32 @@
         const floatingControls = document.getElementById('floatingControls');
         const themeSelector = document.getElementById('themeSelector');
         const backToTop = document.getElementById('backToTop');
+        const themeColorMeta = document.getElementById('themeColorMeta');
+
+        function updateThemeColor() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            let themeColor;
+            switch(currentTheme) {
+                case 'lightblue':
+                    themeColor = '#e3f2fd';
+                    break;
+                case 'yellow':
+                    themeColor = '#fff9e6';
+                    break;
+                case 'sepia':
+                    themeColor = '#f4ecd8';
+                    break;
+                case 'contrast':
+                    themeColor = '#ffffff';
+                    break;
+                case 'dark':
+                    themeColor = '#1a1a1a';
+                    break;
+                default:
+                    themeColor = '#e8f5e3';
+            }
+            themeColorMeta.setAttribute('content', themeColor);
+        }
 
         function showControls() {
             floatingControls.classList.remove('hidden');
@@ -1079,6 +1109,7 @@
                 themeOptions.forEach(opt => opt.classList.remove('active'));
                 option.classList.add('active');
                 localStorage.setItem('urduNotesTheme', theme);
+                updateThemeColor();
                 setTimeout(() => {
                     themeSelector.classList.remove('active');
                     hideControlsTimeout = setTimeout(() => {
@@ -1094,6 +1125,7 @@
             themeOptions.forEach(opt => {
                 opt.classList.toggle('active', opt.dataset.theme === savedTheme);
             });
+            updateThemeColor();
         }
 
         window.addEventListener('scroll', () => {
