@@ -9,50 +9,392 @@
     <style>
         * {
             font-family: 'Noto Nastaliq Urdu', serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #faf8f4;
+            position: relative;
+        }
+
+        /* Soft warm top glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -40%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120%;
+            height: 70%;
+            background: radial-gradient(ellipse, rgba(212,175,55,0.07) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .main-wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 620px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem 3rem;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 24px;
+            background: linear-gradient(145deg, #fff, #f5f0e8);
+            box-shadow:
+                0 1px 3px rgba(0,0,0,0.04),
+                0 8px 30px rgba(0,0,0,0.06),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .hero-badge:hover {
+            transform: scale(1.08) rotate(-3deg);
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: #1a1714;
+            margin: 0 0 0.5rem;
+            line-height: 1.6;
+        }
+
+        .hero .sub {
+            font-size: 1rem;
+            color: #9c9488;
+            margin: 0;
+        }
+
+        .ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 1.5rem;
+        }
+
+        .ornament-line {
+            width: 48px;
+            height: 1px;
+            background: linear-gradient(to left, #d4c9a8, transparent);
+        }
+
+        .ornament-line:last-child {
+            background: linear-gradient(to right, #d4c9a8, transparent);
+        }
+
+        .ornament-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #d4af37;
+            opacity: 0.5;
+        }
+
+        /* ── Cards ── */
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .note-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            border-radius: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+            transform: translateY(16px);
+            animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .note-card:nth-child(1) { animation-delay: 0.1s; }
+        .note-card:nth-child(2) { animation-delay: 0.18s; }
+        .note-card:nth-child(3) { animation-delay: 0.26s; }
+        .note-card:nth-child(4) { animation-delay: 0.34s; }
+        .note-card:nth-child(5) { animation-delay: 0.42s; }
+        .note-card:nth-child(6) { animation-delay: 0.50s; }
+
+        @keyframes cardIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .note-card:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.05),
+                0 12px 40px rgba(0,0,0,0.06);
+            border-color: rgba(212,175,55,0.2);
+        }
+
+        .note-card:active {
+            transform: scale(0.985);
+            transition-duration: 0.1s;
+        }
+
+        /* Icon */
+        .card-icon {
+            flex-shrink: 0;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .note-card:hover .card-icon {
+            transform: scale(1.12) rotate(-4deg);
+        }
+
+        .card-icon.s1 { background: #fef2f2; }
+        .card-icon.s2 { background: #eff6ff; }
+        .card-icon.s3 { background: #fefce8; }
+        .card-icon.s4 { background: #f0fdf4; }
+        .card-icon.s5 { background: #faf5ff; }
+        .card-icon.s6 { background: #fdf2f8; }
+
+        /* Text */
+        .card-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #2c2825;
+            line-height: 2;
+            transition: color 0.3s;
+        }
+
+        .card-desc {
+            font-size: 0.82rem;
+            color: #b0a99e;
+            line-height: 1.8;
+            margin-top: 1px;
+        }
+
+        .note-card:hover .card-title {
+            color: #1a1714;
+        }
+
+        /* Arrow */
+        .card-arrow {
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f6f2;
+            transition: all 0.35s ease;
+        }
+
+        .card-arrow svg {
+            width: 14px;
+            height: 14px;
+            stroke: #c5bdb0;
+            transition: all 0.35s ease;
+            transform: scaleX(-1);
+        }
+
+        .note-card:hover .card-arrow {
+            background: #f7f0e0;
+            transform: translateX(-3px);
+        }
+
+        .note-card:hover .card-arrow svg {
+            stroke: #b8960c;
+        }
+
+        /* Gold accent bar (left side in RTL) */
+        .note-card::after {
+            content: '';
+            position: absolute;
+            left: auto;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%) scaleY(0);
+            width: 3px;
+            height: 24px;
+            border-radius: 3px;
+            background: linear-gradient(to bottom, #d4af37, #c49b2c);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .note-card:hover::after {
+            transform: translateY(-50%) scaleY(1);
+        }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            margin-top: 3.5rem;
+            animation: fadeUp 0.8s 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .footer p {
+            color: #c5bdb0;
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 2;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .main-wrap { padding: 2.5rem 1rem 2rem; }
+            .hero h1 { font-size: 2.1rem; }
+            .hero-badge { width: 66px; height: 66px; font-size: 1.8rem; border-radius: 20px; }
+            .note-card { padding: 16px 18px; gap: 12px; }
+            .card-icon { width: 44px; height: 44px; font-size: 1.2rem; border-radius: 12px; }
+            .card-title { font-size: 1.05rem; }
+            .card-desc { font-size: 0.78rem; }
         }
     </style>
 </head>
-<body class="min-h-screen bg-white">
+<body>
 
-    <div class="max-w-2xl mx-auto px-6 py-16">
-        
-        <!-- Header -->
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-800 mb-2">📚 اردو نوٹس</h1>
-            <p class="text-gray-500">گیارہویں جماعت کے نوٹس</p>
+    <div class="main-wrap">
+
+        <!-- Hero -->
+        <div class="hero">
+            <div class="hero-badge">📚</div>
+            <h1>اردو نوٹس</h1>
+            <p class="sub">گیارہویں جماعت کے نوٹس</p>
+            <div class="ornament">
+                <div class="ornament-line"></div>
+                <div class="ornament-dot"></div>
+                <div class="ornament-line"></div>
+            </div>
         </div>
 
-        <!-- Links -->
-        <div class="space-y-4">
-            
-            <a href="./p1/" class="block p-5 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
-                <span class="text-gray-800 text-lg">📜 اشعار کی تشریح</span>
+        <!-- Cards -->
+        <div class="cards-list">
+
+            <a href="./p1/" class="note-card">
+                <div class="card-icon s1">📜</div>
+                <div class="card-body">
+                    <div class="card-title">اشعار کی تشریح</div>
+                    <div class="card-desc">اشعار کا مفصل تجزیہ اور تشریح</div>
+                </div>
+                <div class="card-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </div>
             </a>
 
-            <a href="./p2/" class="block p-5 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
-                <span class="text-gray-800 text-lg">📑 اقتباس کی تشریح</span>
+            <a href="./p2/" class="note-card">
+                <div class="card-icon s2">📑</div>
+                <div class="card-body">
+                    <div class="card-title">اقتباس کی تشریح</div>
+                    <div class="card-desc">منتخب اقتباسات کی وضاحت</div>
+                </div>
+                <div class="card-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </div>
             </a>
 
-            <a href="./p3/" class="block p-5 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
-                <span class="text-gray-800 text-lg">🎯 نظم کا مرکزی خیال</span>
+            <a href="./p3/" class="note-card">
+                <div class="card-icon s3">🎯</div>
+                <div class="card-body">
+                    <div class="card-title">نظم کا مرکزی خیال</div>
+                    <div class="card-desc">نظموں کے بنیادی موضوعات</div>
+                </div>
+                <div class="card-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </div>
             </a>
 
-            <a href="./p4/" class="block p-5 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
-                <span class="text-gray-800 text-lg">📋 سوالات و جوابات</span>
+            <a href="./p4/" class="note-card">
+                <div class="card-icon s4">📋</div>
+                <div class="card-body">
+                    <div class="card-title">سوالات و جوابات</div>
+                    <div class="card-desc">اہم سوالات کے جامع جوابات</div>
+                </div>
+                <div class="card-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </div>
             </a>
 
-            <a href="./p5/" class="block p-5 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
-                <span class="text-gray-800 text-lg">👤 شاعر پر تبصرہ</span>
+            <a href="./p5/" class="note-card">
+                <div class="card-icon s5">👤</div>
+                <div class="card-body">
+                    <div class="card-title">شاعر پر تبصرہ</div>
+                    <div class="card-desc">شعراء کے احوال و تعارف</div>
+                </div>
+                <div class="card-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </div>
             </a>
 
-            <a href="./p6/" class="block p-5 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
-                <span class="text-gray-800 text-lg">✒️ نثر نگار پر تبصرہ</span>
+            <a href="./p6/" class="note-card">
+                <div class="card-icon s6">✒️</div>
+                <div class="card-body">
+                    <div class="card-title">نثر نگار پر تبصرہ</div>
+                    <div class="card-desc">نثر نگاروں کا مختصر تعارف</div>
+                </div>
+                <div class="card-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </div>
             </a>
 
         </div>
 
         <!-- Footer -->
-        <p class="text-center text-gray-400 text-sm mt-12">دعاؤں میں یاد رکھیں 🤲</p>
+        <div class="footer">
+            <div class="ornament" style="margin-bottom: 1rem;">
+                <div class="ornament-line"></div>
+                <div class="ornament-dot"></div>
+                <div class="ornament-line"></div>
+            </div>
+            <p>دعاؤں میں یاد رکھیں 🤲</p>
+        </div>
 
     </div>
 
